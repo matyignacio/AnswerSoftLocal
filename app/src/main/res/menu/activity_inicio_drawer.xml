@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/clientes"
+            android:icon="@drawable/usuario"
+            android:title="Clientes" />
+        <item
+            android:id="@+id/productos"
+            android:icon="@drawable/carrito"
+            android:title="Productos" />
+    </group>
+    <item android:title="Administracion">
+        <menu>
+            <item
+                android:id="@+id/cerrarSesion"
+                android:icon="@drawable/exit"
+                android:title="Cerrar sesion" />
+        </menu>
+    </item>
+
+</menu>

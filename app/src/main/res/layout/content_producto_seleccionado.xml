@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backGroundColor"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.desarrollo.kuky.answersoft.ui.UIProductoSeleccionado">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="Stock:"
+            android:textColor="@android:color/background_dark"
+            android:textSize="15dp"
+            tools:ignore="HardcodedText,SpUsage" />
+
+
+        <TextView
+            android:id="@+id/tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/etStock"
+            android:layout_marginTop="20dp"
+            android:text="Precio de venta:"
+            android:textColor="@android:color/background_dark"
+            android:textSize="15dp"
+            tools:ignore="HardcodedText,SpUsage" />
+
+        <TextView
+            android:id="@+id/tv3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/etPrecioVenta"
+            android:layout_marginTop="20dp"
+            android:text="Codigo de barra:"
+            android:textColor="@android:color/background_dark"
+            android:textSize="15dp"
+            tools:ignore="HardcodedText,SpUsage" />
+
+        <Button
+            android:id="@+id/bGuardar"
+            style="@style/botonRojoBlanco"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/etCodigoBarra"
+            android:layout_marginTop="20dp"
+            android:elevation="5dp"
+            android:onClick="Guardar"
+            android:text="Guardar"
+            android:textStyle="normal|bold"
+            tools:ignore="HardcodedText,UnusedAttribute">
+
+            <requestFocus />
+        </Button>
+
+        <Button
+            android:id="@+id/bEtiqueta"
+            style="@style/botonRojoBlanco"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/bGuardar"
+            android:layout_marginTop="20dp"
+            android:onClick="InsertarEtiqueta"
+            android:text="Etiqueta"
+            android:textStyle="normal|bold"
+            tools:ignore="HardcodedText,UnusedAttribute" />
+
+        <EditText
+            android:id="@+id/etCodigoBarra"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tv3"
+            android:inputType="text"
+            android:text="Codigo de barra"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/background_dark"
+            android:textSize="20dp"
+            tools:ignore="HardcodedText,SpUsage" />
+
+        <EditText
+            android:id="@+id/etStock"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tv1"
+            android:inputType="numberDecimal"
+            android:text="Stock del "
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/background_dark"
+            android:textSize="20dp"
+            tools:ignore="HardcodedText,SpUsage" />
+
+        <TextView
+            android:id="@+id/tvPesos"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tv2"
+            android:text="$ "
+            android:layout_marginTop="10dp"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/background_dark"
+            android:textSize="20dp" />
+
+        <EditText
+            android:id="@+id/etPrecioVenta"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv2"
+            android:layout_toEndOf="@+id/tvPesos"
+            android:layout_toRightOf="@+id/tvPesos"
+            android:inputType="numberDecimal"
+            android:text="Calculando..."
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/background_dark"
+            android:textSize="20dp"
+            tools:ignore="HardcodedText,SpUsage" />
+
+
+    </RelativeLayout>
+
+
+</android.support.v4.widget.NestedScrollView>
