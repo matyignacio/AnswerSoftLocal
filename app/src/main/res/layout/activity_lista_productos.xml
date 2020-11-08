@@ -1,0 +1,76 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/layout_primary"
+    tools:context=".ui.UIListaProductos">
+
+    <EditText
+        android:id="@+id/etBuscarProducto"
+        style="@style/et_primary"
+        android:layout_width="match_parent"
+        android:hint="@string/activity_lista_productos_buscar_producto"
+        android:imeOptions="actionSearch"
+        android:inputType="textPersonName" />
+
+    <RelativeLayout
+        android:id="@+id/rlTitulosListaProductos"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etBuscarProducto"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/tvCodigo"
+            android:textColor="@color/colorAccent"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="15dp"
+            android:text="@string/activity_lista_productos_codigo"
+            android:textStyle="bold"
+            android:typeface="sans" />
+
+        <TextView
+            android:id="@+id/tvNombreProducto"
+            android:textColor="@color/colorAccent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_toStartOf="@+id/tvPrecioProducto"
+            android:layout_toLeftOf="@+id/tvPrecioProducto"
+            android:layout_toEndOf="@+id/tvCodigo"
+            android:layout_toRightOf="@+id/tvCodigo"
+            android:text="@string/activity_lista_productos_nombre"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvPrecioProducto"
+            android:textColor="@color/colorAccent"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_toStartOf="@+id/tvStockProducto"
+            android:layout_toLeftOf="@+id/tvStockProducto"
+            android:text="@string/activity_lista_productos_precio"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvStockProducto"
+            android:textColor="@color/colorAccent"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="15dp"
+            android:text="@string/activity_lista_productos_stock"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/listaProductos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlTitulosListaProductos"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>

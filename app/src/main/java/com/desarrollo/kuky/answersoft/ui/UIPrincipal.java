@@ -1,6 +1,5 @@
 package com.desarrollo.kuky.answersoft.ui;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -11,18 +10,25 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.desarrollo.kuky.answersoft.R;
 import com.desarrollo.kuky.answersoft.controlador.BaseHelper;
 import com.desarrollo.kuky.answersoft.controlador.ConfigaccControlador;
 import com.desarrollo.kuky.answersoft.util.Util;
 
+import java.util.concurrent.Callable;
+
+import static com.desarrollo.kuky.answersoft.util.Util.abrirActivity;
+import static com.desarrollo.kuky.answersoft.util.Util.mostrarMensaje;
+
 public class UIPrincipal extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     TextView tvBienvenidoUsuario;
+    Button bClientes, bProductos, bPresupuestos;
 
     @Override
 
@@ -38,10 +44,43 @@ public class UIPrincipal extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
         tvBienvenidoUsuario = (TextView) findViewById(R.id.tvBienvenidoUsuario);
+        bClientes = (Button) findViewById(R.id.bClientes);
+        bProductos = (Button) findViewById(R.id.bProductos);
+        bPresupuestos = (Button) findViewById(R.id.bPresupuestos);
+        ////////////////////////////////////////////////////////////////////////////////////////////
         tvBienvenidoUsuario.setTypeface(util.getTypeface());
+        bClientes.setTypeface(util.getTypeface());
+        bProductos.setTypeface(util.getTypeface());
+        bPresupuestos.setTypeface(util.getTypeface());
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        bClientes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ConfigaccControlador configaccControlador = new ConfigaccControlador();
+                configaccControlador.permisosClientes(UIPrincipal.this);
+            }
+        });
+        bProductos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ConfigaccControlador configaccControlador = new ConfigaccControlador();
+                configaccControlador.permisosProductos(UIPrincipal.this);
+            }
+        });
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         SQLiteDatabase db = BaseHelper.getInstance(this).getReadableDatabase();
+        try {
+            Cursor c2 = db.rawQuery("SELECT * FROM parametros", null);
+            if (c2.moveToFirst()) {
+            } else {
+                abrirActivity(this, UIParametros.class);
+                mostrarMensaje(this, "Es necesario configurar estos parametros");
+            }
+            c2.close();
+        } catch (Exception e) {
+            mostrarMensaje(this, e.toString());
+        }
         try {
             Cursor c = db.rawQuery("SELECT NOMBRE FROM usuarios", null);
             while (c.moveToNext()) {
@@ -50,7 +89,7 @@ public class UIPrincipal extends AppCompatActivity
             c.close();
             db.close();
         } catch (Exception e) {
-            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+            mostrarMensaje(this, e.toString());
         }
         db.close();
     }
@@ -61,21 +100,7 @@ public class UIPrincipal extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            SQLiteDatabase db = BaseHelper.getInstance(this).getReadableDatabase();
-            try {
-                Cursor c = db.rawQuery("SELECT * FROM usuarios", null);
-                if (c.moveToFirst()) {
-                    c.close();
-                    db.close();
-                    Intent setIntent = new Intent(Intent.ACTION_MAIN);
-                    setIntent.addCategory(Intent.CATEGORY_HOME);
-                    setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(setIntent);
-                    super.onBackPressed();
-                }
-            } catch (Exception e) {
-
-            }
+            this.finish();
         }
     }
 
@@ -90,12 +115,34 @@ public class UIPrincipal extends AppCompatActivity
 
         if (id == R.id.clientes) {
             ConfigaccControlador configaccControlador = new ConfigaccControlador();
-            configaccControlador.permisosClientes(UIPrincipal.this);
+            configaccControlador.permisosClientes(this);
         } else if (id == R.id.productos) {
             ConfigaccControlador configaccControlador = new ConfigaccControlador();
-            configaccControlador.permisosProductos(UIPrincipal.this);
+            configaccControlador.permisosProductos(this);
+        } else if (id == R.id.parametros) {
+            abrirActivity(this, UIParametros.class);
         } else if (id == R.id.cerrarSesion) {
-            Util.showDialogCerrarSesion(this);
+            Util.createCustomDialog(this,
+                    "¿Esta seguro que desea cerrar sesion?",
+                    "",
+                    "SI, CERRAR SESION",
+                    "CANCELAR",
+                    new Callable<Void>() {
+                        @Override
+                        public Void call() throws Exception {
+                            ///////////////////////////////////////////////////////////////////////////////////////
+                            SQLiteDatabase db = BaseHelper.getInstance(UIPrincipal.this).getWritableDatabase();
+                            db.execSQL("DELETE FROM usuarios");
+                            abrirActivity(UIPrincipal.this, UILogin.class);
+                            return null;
+                        }
+                    },
+                    new Callable<Void>() {
+                        @Override
+                        public Void call() throws Exception {
+                            return null;
+                        }
+                    }).show();
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

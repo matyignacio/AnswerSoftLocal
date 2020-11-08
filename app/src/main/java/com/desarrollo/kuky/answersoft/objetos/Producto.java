@@ -10,6 +10,7 @@ public class Producto {
     private float precioVenta;
     private String codAlternativo;
     private int moneda;
+    private float listaCodigo;
 
     public int getIdProducto() {
         return idProducto;
@@ -57,6 +58,14 @@ public class Producto {
 
     public void setMoneda(int moneda) {
         this.moneda = moneda;
+    }
+
+    public float getListaCodigo() {
+        return listaCodigo;
+    }
+
+    public void setListaCodigo(float listaCodigo) {
+        this.listaCodigo = listaCodigo;
     }
 
     @Override

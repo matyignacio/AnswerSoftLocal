@@ -1,7 +1,3 @@
 <resources>
-    <item name="usuario" type="drawable">@drawable/usuario24</item>
-    <item name="carrito" type="drawable">@drawable/carrito24</item>
-    <item name="sync" type="drawable">@drawable/sync24</item>
-    <item name="configurar" type="drawable">@drawable/configurar24</item>
-    <item name="exit" type="drawable">@drawable/exit</item>
+
 </resources>

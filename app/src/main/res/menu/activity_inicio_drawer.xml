@@ -14,6 +14,10 @@
     <item android:title="Administracion">
         <menu>
             <item
+                android:id="@+id/parametros"
+                android:icon="@drawable/configurar"
+                android:title="Parametros" />
+            <item
                 android:id="@+id/cerrarSesion"
                 android:icon="@drawable/exit"
                 android:title="Cerrar sesion" />

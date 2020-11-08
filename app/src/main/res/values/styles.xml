@@ -17,19 +17,89 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="botonRojoBlanco">
-        <item name="android:background">#D50000</item>
-        <item name="android:textColor">#FFFFFF</item>
-    </style>
-
-    <style name="botonRojoNegro">
-        <item name="android:background">#D50000</item>
-        <item name="android:textColor">#000000</item>
-    </style>
     <!-- This configures the styles for the title within the Toolbar  -->
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="layout_primary">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/backgroundColor</item>
+    </style>
+
+    <style name="background_card">
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@drawable/background_card</item>
+    </style>
+
+    <style name="tv_primary">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:gravity">right</item>
+        <item name="android:ems">12</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="tv_primary_bold_left" parent="tv_primary">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">left</item>
+        <item name="android:layout_marginTop">5dp</item>
+    </style>
+
+    <style name="tv_primary_mini" parent="tv_primary">
+        <item name="android:textSize">12sp</item>
+        <item name="android:ems">8</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">left</item>
+        <item name="android:layout_marginTop">0dp</item>
+    </style>
+
+    <style name="et_primary" parent="tv_primary">
+        <item name="android:background">@drawable/et_redondo</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:gravity">left</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="et_primary_alternativo" parent="et_primary">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="b_primary">
+        <item name="android:padding">5dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:ems">12</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:textColor">@color/textColorPrimaryAppBar</item>
+        <item name="android:background">@drawable/boton_redondo</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="b_primary_mini" parent="b_primary">
+        <item name="android:textSize">12sp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:ems">5</item>
+    </style>
+
+    <style name="b_primary_disabled" parent="b_primary">
+        <item name="background">@drawable/boton_redondo_deshabilitado</item>
     </style>
 
 

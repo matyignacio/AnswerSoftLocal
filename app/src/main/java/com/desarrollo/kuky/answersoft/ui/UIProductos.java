@@ -1,6 +1,7 @@
 package com.desarrollo.kuky.answersoft.ui;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -19,6 +20,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.desarrollo.kuky.answersoft.R;
+import com.desarrollo.kuky.answersoft.controlador.BaseHelper;
 import com.desarrollo.kuky.answersoft.controlador.ConfigaccControlador;
 import com.desarrollo.kuky.answersoft.controlador.ProductoControlador;
 import com.desarrollo.kuky.answersoft.objetos.Configacc;
@@ -29,6 +31,9 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
+
+import static com.desarrollo.kuky.answersoft.util.Util.abrirActivity;
 
 public class UIProductos extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -73,8 +78,8 @@ public class UIProductos extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+        final ProductoControlador productoControlador = new ProductoControlador();
         if (busqueda.equals("")) {
-            final ProductoControlador productoControlador = new ProductoControlador();
             productoControlador.extraerTodos(this, listaProductos);
             listaProductos.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
             listaProductos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -86,7 +91,6 @@ public class UIProductos extends AppCompatActivity
                 }
             });
         } else {
-            final ProductoControlador productoControlador = new ProductoControlador();
             productoControlador.buscarPorDescripcion(UIProductos.this, listaProductos, busqueda);
             listaProductos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -119,7 +123,7 @@ public class UIProductos extends AppCompatActivity
         final MenuItem searchItem = menu.findItem(R.id.buscarproductos);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         //permite modificar el hint que el EditText muestra por defecto
-        //searchView.setQueryHint(getText(R.string.search));
+        searchView.setQueryHint(getText(R.string.action_search));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -161,8 +165,31 @@ public class UIProductos extends AppCompatActivity
             configaccControlador.permisosClientes(this);
         } else if (id == R.id.productos) {
 
+        } else if (id == R.id.parametros) {
+            abrirActivity(this, UIParametros.class);
         } else if (id == R.id.cerrarSesion) {
-            Util.showDialogCerrarSesion(this);
+
+            Util.createCustomDialog(this,
+                    "¿Esta seguro que desea cerrar sesion?",
+                    "",
+                    "SI, CERRAR SESION",
+                    "CANCELAR",
+                    new Callable<Void>() {
+                        @Override
+                        public Void call() throws Exception {
+                            ///////////////////////////////////////////////////////////////////////////////////////
+                            SQLiteDatabase db = BaseHelper.getInstance(UIProductos.this).getWritableDatabase();
+                            db.execSQL("DELETE FROM usuarios");
+                            abrirActivity(UIProductos.this, UILogin.class);
+                            return null;
+                        }
+                    },
+                    new Callable<Void>() {
+                        @Override
+                        public Void call() throws Exception {
+                            return null;
+                        }
+                    }).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

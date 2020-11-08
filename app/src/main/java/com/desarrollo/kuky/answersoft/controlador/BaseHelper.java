@@ -36,28 +36,39 @@ public class BaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(sqlTablaConfiguracion);
         sqLiteDatabase.execSQL(sqlTablaUsuarios);
+        sqLiteDatabase.execSQL(sqlTablaParametros);
+        sqLiteDatabase.execSQL(sqlTablaPedidoLocal);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
+        // Loop through each version when an upgrade occurs.
+        for (int version = oldVersion + 1; version <= newVersion; version++) {
+            switch (version) {
+                case 2:
+                    // Apply changes made in version 2
+                    /*db.execSQL(
+                            "ALTER TABLE " +
+                                    TABLE_PRODUCTS +
+                                    " ADD COLUMN " +
+                                    COLUMN_DESCRIPTION +
+                                    " TEXT;"
+                    );*/
+                    break;
 
+                case 3:
+                    // Apply changes made in version 3
+                    /*db.execSQL(CREATE_TABLE_TRANSACTION);*/
+                    break;
+            }
+        }
     }
 
-    String sqlTablaClientes = "CREATE TABLE IF NOT EXISTS clientes (" +
-            "IDCLIENTE integer default NULL," +
-            "RAZONSOC varchar(30) default NULL, " +
-            "DOMICILIO varchar(40) default NULL," +
-            "TELEFONO varchar(25) default NULL," +
-            "TIPORESP varchar(3) default NULL," +
-            "NROCUIT varchar(11) default NULL" +
-            ")";
-
-    String sqlTablaProductos = "CREATE TABLE IF NOT EXISTS productos (" +
-            "IDPRODUCTO integer default NULL," +
-            "DESCRIP varchar(40) default NULL, " +
-            "STOCK decimal(20,4) default NULL," +
-            "PRECVENTA decimal(15,4) default NULL," +
-            "CODALTERN varchar(20) default NULL" +
+    String sqlTablaParametros = "CREATE TABLE IF NOT EXISTS parametros (" +
+            "`IDVENDEDOR` varchar(6) default NULL," +
+            "`NROPTOVTA` decimal(10,4) default NULL," +
+            "limite_clientes int(11) default NULL, " +
+            "limite_productos int(11) default NULL" +
             ")";
     String sqlTablaConfiguracion = "CREATE TABLE IF NOT EXISTS configuracion (" +
             "direcionip varchar(30) default NULL," +
@@ -72,20 +83,29 @@ public class BaseHelper extends SQLiteOpenHelper {
             "`NOMBRE` varchar(30) default NULL, " +
             "`pass` varchar(50) default NULL" +
             ")";
+    public static String sqlTablaPedidoLocal = "CREATE TABLE PedidoLocal (" +
+            "idP INTEGER, " +
+            "cantidad decimal(10,4) default NULL, " +
+            "DESCRIPPROD2 varchar(40)," +
+            "PUNIT2 decimal(15,4)," +
+            "SUBTOT2 decimal(15,4)," +
+            "CODALTERN varchar(20) default NULL," +
+            "id INTEGER PRIMARY KEY AUTOINCREMENT" +
+            ")";
 
     public String getSqlTablaUsuarios() {
         return sqlTablaUsuarios;
     }
 
-    public String getSqlTablaClientes() {
-        return sqlTablaClientes;
-    }
-
-    public String getSqlTablaProductos() {
-        return sqlTablaProductos;
-    }
-
     public String getSqlTablaConfiguracion() {
         return sqlTablaConfiguracion;
+    }
+
+    public String getSqlTablaParametros() {
+        return sqlTablaParametros;
+    }
+
+    public static String getSqlTablaPedidoLocal() {
+        return sqlTablaPedidoLocal;
     }
 }

@@ -2,11 +2,9 @@ package com.desarrollo.kuky.answersoft.controlador;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import com.desarrollo.kuky.answersoft.objetos.Configacc;
 import com.desarrollo.kuky.answersoft.ui.UIClientes;
@@ -17,6 +15,9 @@ import com.mysql.jdbc.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import static com.desarrollo.kuky.answersoft.util.Util.abrirActivity;
+import static com.desarrollo.kuky.answersoft.util.Util.mostrarMensaje;
 
 /**
  * Created by Kuky on 25/03/2017.
@@ -101,16 +102,14 @@ public class ConfigaccControlador {
                 for (int i = 0; i < configaccs.size(); i++) {
                     if (configaccs.get(i).getIndice() == 8) {
                         bandera = 1;
-                        Intent intent = new Intent(a, UIClientes.class);
-                        a.startActivity(intent);
-                        a.finish();
+                        abrirActivity(a, UIClientes.class);
                     }
                 }
                 if (bandera == 0) {
-                    Toast.makeText(a, "Ud no tiene permisos para acceder a esta seccion.", Toast.LENGTH_SHORT).show();
+                    mostrarMensaje(a, "Ud no tiene permisos para acceder a esta seccion.");
                 }
             } else {
-                Toast.makeText(a, s, Toast.LENGTH_SHORT).show();
+                mostrarMensaje(a, s);
             }
         }
     }
@@ -192,16 +191,14 @@ public class ConfigaccControlador {
                 for (int i = 0; i < configaccs.size(); i++) {
                     if (configaccs.get(i).getIndice() == 0) {
                         bandera = 1;
-                        Intent intent = new Intent(a, UIProductos.class);
-                        a.startActivity(intent);
-                        a.finish();
+                        abrirActivity(a, UIProductos.class);
                     }
                 }
                 if (bandera == 0) {
-                    Toast.makeText(a, "Ud no tiene permisos para acceder a esta seccion.", Toast.LENGTH_SHORT).show();
+                    mostrarMensaje(a, "Ud no tiene permisos para acceder a esta seccion.");
                 }
             } else {
-                Toast.makeText(a, s, Toast.LENGTH_SHORT).show();
+                mostrarMensaje(a, s);
             }
         }
     }
@@ -278,7 +275,7 @@ public class ConfigaccControlador {
             if (s.equals("")) {
                 //Toast.makeText(a, "Pasa por aca", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(a, s, Toast.LENGTH_SHORT).show();
+                mostrarMensaje(a, s);
             }
         }
     }

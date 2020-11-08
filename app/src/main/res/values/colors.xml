@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#D50000</color>
-    <color name="colorPrimaryDark">#b71c1c</color>
-    <color name="colorAccent">#311B92</color>
+    <color name="colorPrimary">#283593</color>
+    <color name="colorPrimaryDark">#1A237E</color>
+    <color name="colorAccent">#B71C1C</color>
+    <color name="colorAccentLight">#C62828</color>
+    <color name="backgroundColor">#E8E8E8</color>
+    <color name="textColorPrimaryAppBar">#FFFFFF</color>
+    <color name="textColorPrimary">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="whiteWithOpacity">#D9FFFFFF</color> <!-- D9FFFFFF = 85% ; B3FFFFFF = 70%-->
+    <color name="backgroundDisabled">#6c6c6c</color>
+    <color name="marcador_amarillo">#FFEB3B</color>
+    <color name="marcador_verde">#4CAF50</color>
+    <color name="marcador_rojo">#F44336</color>
+    <color name="marcador_azul">#2196F3</color>
     <color name="backGroundColor">#d4d4d4</color>
 
 </resources>

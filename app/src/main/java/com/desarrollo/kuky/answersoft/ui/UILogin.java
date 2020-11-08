@@ -1,7 +1,6 @@
 package com.desarrollo.kuky.answersoft.ui;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -19,6 +18,10 @@ import com.desarrollo.kuky.answersoft.R;
 import com.desarrollo.kuky.answersoft.controlador.BaseHelper;
 import com.desarrollo.kuky.answersoft.controlador.UsuarioControlador;
 import com.desarrollo.kuky.answersoft.objetos.Usuario;
+import com.desarrollo.kuky.answersoft.util.Util;
+
+import static com.desarrollo.kuky.answersoft.util.Util.abrirActivity;
+import static com.desarrollo.kuky.answersoft.util.Util.mostrarMensaje;
 
 public class UILogin extends AppCompatActivity {
     public static Usuario usuario;
@@ -34,82 +37,51 @@ public class UILogin extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         SQLiteDatabase db = BaseHelper.getInstance(this).getReadableDatabase();
         super.onCreate(savedInstanceState);
+        Util util = new Util(this);
         try {
-            Cursor c = db.rawQuery("SELECT * FROM usuarios", null);
-            if (c.moveToFirst()) { //EL IF ES IGUAL QUE EL ELSE, PORQUE NO MODIFIQUE LAS VALIDACIONES (DEBERIA ELIMINAR TODA LA ESTRUCTURA IF Y DEJAR SOLO EL CUERPO)
-                usuario = new Usuario();
-                setContentView(R.layout.activity_login);
-                // CAPTURAMOS LOS ELEMENTOS
-                etNombre = (EditText) findViewById(R.id.etNombre);
-                etPass = (EditText) findViewById(R.id.etPass);
-                Button bLogin = (Button) findViewById(R.id.bLogin);
-                try {
-                    Cursor c2 = db.rawQuery("SELECT * FROM configuracion", null);
-                    if (c2.moveToFirst()) {
-                    } else {
-                        Toast.makeText(this, "Por primera vez, debe configurar los datos de sincronizacion", Toast.LENGTH_SHORT).show();
-                    }
-                    c2.close();
-                } catch (Exception e) {
-                    Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+            usuario = new Usuario();
+            setContentView(R.layout.activity_login);
+            // CAPTURAMOS LOS ELEMENTOS
+            etNombre = (EditText) findViewById(R.id.etNombre);
+            etPass = (EditText) findViewById(R.id.etPass);
+            Button bLogin = (Button) findViewById(R.id.bLogin);
+            ////////////////////////////////////////////////////////////////////////////////////////////
+            etNombre.setTypeface(util.getTypeface());
+            etPass.setTypeface(util.getTypeface());
+            bLogin.setTypeface(util.getTypeface());
+            try {
+                Cursor c2 = db.rawQuery("SELECT * FROM configuracion", null);
+                if (c2.moveToFirst()) {
+                } else {
+                    abrirActivity(this, UIConfiguracion.class);
+                    mostrarMensaje(this, "Por primera vez, debe configurar los datos de sincronizacion");
                 }
-                c.close();
-                db.close();
-                etNombre.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    public void onFocusChange(View v, boolean hasFocus) {
-                        if (!hasFocus) {
-                            uControlador.extraerPorNombre(UILogin.this, etNombre.getText());
-                        }
-                    }
-                });
-                bLogin.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        attemptLogin();
-                    }
-                });
-          /*     Intent intent = new Intent(UILogin.this, UIPrincipal.class);
-                this.finish();
-                startActivity(intent);
-                c.close();
-                db.close();*/ //ESTO QUEDA COMENTADO PORQUE JUAN ME PIDIO QUE PIDA LOGUEARSE TODAS LAS VECES QUE SE INICIA
-            } else {
-                usuario = new Usuario();
-                setContentView(R.layout.activity_login);
-                // CAPTURAMOS LOS ELEMENTOS
-                etNombre = (EditText) findViewById(R.id.etNombre);
-                etPass = (EditText) findViewById(R.id.etPass);
-                Button bLogin = (Button) findViewById(R.id.bLogin);
-                try {
-                    Cursor c2 = db.rawQuery("SELECT * FROM configuracion", null);
-                    if (c2.moveToFirst()) {
-                    } else {
-                        Toast.makeText(this, "Por primera vez, debe configurar los datos de sincronizacion", Toast.LENGTH_SHORT).show();
-                    }
-                    c2.close();
-                } catch (Exception e) {
-                    Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
-                }
-                c.close();
-                db.close();
-                etNombre.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    public void onFocusChange(View v, boolean hasFocus) {
-                        if (!hasFocus) {
-                            uControlador.extraerPorNombre(UILogin.this, etNombre.getText());
-                        }
-                    }
-                });
-                bLogin.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        attemptLogin();
-                    }
-                });
+                c2.close();
+            } catch (Exception e) {
+                mostrarMensaje(this, e.toString());
             }
+            db.close();
+            etNombre.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (!hasFocus) {
+                        uControlador.extraerPorNombre(UILogin.this, etNombre.getText());
+                    }
+                }
+            });
+            bLogin.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    attemptLogin();
+                }
+            });
         } catch (Exception e) {
-            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+            mostrarMensaje(this, e.toString());
         }
+    }
 
+    @Override
+    public void onBackPressed() {
+        this.finish();
     }
 
     @Override
@@ -123,8 +95,7 @@ public class UILogin extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.configurar) {
-            Intent intent = new Intent(UILogin.this, UIConfiguracion.class);
-            startActivity(intent);
+            abrirActivity(UILogin.this, UIConfiguracion.class);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -183,9 +154,7 @@ public class UILogin extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             if (s.toString().equals("correcto")) {
-                Intent intent = new Intent(UILogin.this, UIPrincipal.class);
-                startActivity(intent);
-                a.finish();
+                abrirActivity(a, UIPrincipal.class);
             } else {
                 Toast.makeText(a, s, Toast.LENGTH_SHORT).show();
             }

@@ -1,6 +1,6 @@
 package com.desarrollo.kuky.answersoft.ui;
 
-import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,10 +17,15 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.desarrollo.kuky.answersoft.R;
+import com.desarrollo.kuky.answersoft.controlador.BaseHelper;
 import com.desarrollo.kuky.answersoft.controlador.ClienteControlador;
 import com.desarrollo.kuky.answersoft.controlador.ConfigaccControlador;
 import com.desarrollo.kuky.answersoft.objetos.Cliente;
 import com.desarrollo.kuky.answersoft.util.Util;
+
+import java.util.concurrent.Callable;
+
+import static com.desarrollo.kuky.answersoft.util.Util.abrirActivity;
 
 
 public class UIClientes extends AppCompatActivity
@@ -64,9 +69,7 @@ public class UIClientes extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            Intent intent = new Intent(this, UIPrincipal.class);
-            startActivity(intent);
-            this.finish();
+            abrirActivity(this, UIPrincipal.class);
         }
     }
 
@@ -77,7 +80,7 @@ public class UIClientes extends AppCompatActivity
         final MenuItem searchItem = menu.findItem(R.id.buscarclientes);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         //permite modificar el hint que el EditText muestra por defecto
-        //searchView.setQueryHint(getText(R.string.search));
+        searchView.setQueryHint(getText(R.string.action_search));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -116,8 +119,31 @@ public class UIClientes extends AppCompatActivity
         } else if (id == R.id.productos) {
             ConfigaccControlador configaccControlador = new ConfigaccControlador();
             configaccControlador.permisosProductos(this);
+        } else if (id == R.id.parametros) {
+            abrirActivity(this, UIParametros.class);
         } else if (id == R.id.cerrarSesion) {
-            Util.showDialogCerrarSesion(this);
+
+            Util.createCustomDialog(this,
+                    "¿Esta seguro que desea cerrar sesion?",
+                    "",
+                    "SI, CERRAR SESION",
+                    "CANCELAR",
+                    new Callable<Void>() {
+                        @Override
+                        public Void call() throws Exception {
+                            ///////////////////////////////////////////////////////////////////////////////////////
+                            SQLiteDatabase db = BaseHelper.getInstance(UIClientes.this).getWritableDatabase();
+                            db.execSQL("DELETE FROM usuarios");
+                            abrirActivity(UIClientes.this, UILogin.class);
+                            return null;
+                        }
+                    },
+                    new Callable<Void>() {
+                        @Override
+                        public Void call() throws Exception {
+                            return null;
+                        }
+                    }).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

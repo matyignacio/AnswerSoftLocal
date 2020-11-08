@@ -1,0 +1,119 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView1"
+    style="@style/layout_primary">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context="ui.UIPresupuesto">
+
+        <RelativeLayout
+            android:id="@+id/rlPedidoTop"
+            style="@style/background_card">
+
+            <Button
+                android:id="@+id/listarProductos"
+                style="@style/b_primary_mini"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:onClick="listarProducto"
+                android:text="@string/activity_presupuesto_lista_productos" />
+
+            <EditText
+                android:id="@+id/etCodigoProducto"
+                style="@style/et_primary"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:focusable="true"
+                android:gravity="center_horizontal"
+                android:hint="@string/activity_presupuesto_codigo_producto"
+                android:inputType="text">
+
+                <requestFocus />
+            </EditText>
+
+            <TextView
+                android:id="@+id/tvdescProducto"
+                style="@style/tv_primary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/listarProductos"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:hint="@string/activity_presupuesto_descripcion_del_producto"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tvPrecioProducto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/tvdescProducto"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/activity_presupuesto_subtotal" />
+
+            <Button
+                android:id="@+id/bAgregar"
+                style="@style/b_primary_mini"
+                android:layout_below="@+id/tvdescProducto"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:onClick="agregarItem"
+                android:text="@string/activity_presupuesto_agregar_producto" />
+
+            <EditText
+                android:id="@+id/etCantidad"
+                style="@style/et_primary"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/bAgregar"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:hint="@string/activity_presupuesto_cantidad"
+                android:inputType="numberDecimal" />
+
+            <Button
+                android:id="@+id/bGuardar"
+                style="@style/b_primary"
+                android:layout_below="@+id/etCantidad"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:text="@string/activity_presupuesto_guardar_pedido" />
+        </RelativeLayout>
+
+        <ListView
+            android:id="@+id/listaItems"
+            style="@style/background_card"
+            android:layout_height="200dp"
+            android:layout_below="@+id/rlPedidoTop"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="20dp" />
+
+        <TextView
+            android:id="@+id/tvTotal"
+            style="@style/tv_primary"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/listaItems"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="5sp"
+            android:ems="8"
+            android:focusable="true"
+            android:gravity="end|center_horizontal"
+            android:text="@string/activity_presupuesto_pedir_total"
+            android:textAlignment="center" />
+
+    </RelativeLayout>
+</ScrollView>

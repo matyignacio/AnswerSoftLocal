@@ -1,43 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="5dip">
+    style="@style/background_card"
+    android:orientation="horizontal">
 
     <!--  sli_productos  -->
     <TextView
         android:id="@+id/tvProducto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="title"
-        android:textSize="15dp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textColor="#000000" />
+        style="@style/tv_primary_bold_left"
+        android:text="title" />
 
     <TextView
-        android:id="@+id/tvMensajeCierreSesion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Precio de venta: $"
-        android:textSize="10dp"
-        android:textColor="#000000"
+        android:id="@+id/tvPrecioVenta"
+        style="@style/tv_primary_mini"
         android:layout_below="@+id/tvProducto"
-        android:layout_marginTop="15dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:text="Precio de venta: $" />
 
     <TextView
-        android:text="102"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="10dp"
-        android:textColor="#D50000"
-        android:layout_alignTop="@+id/tvMensajeCierreSesion"
-        android:layout_toRightOf="@+id/tvMensajeCierreSesion"
-        android:layout_toEndOf="@+id/tvMensajeCierreSesion"
-        android:id="@+id/etPrecioVenta" />
+        android:id="@+id/etPrecioVenta"
+        style="@style/tv_primary_mini"
+        android:layout_below="@+id/tvProducto"
+        android:layout_alignTop="@+id/tvPrecioVenta"
+        android:layout_toEndOf="@+id/tvPrecioVenta"
+        android:layout_toRightOf="@+id/tvPrecioVenta"
+        android:textColor="@color/colorPrimary"
+        android:text="102" />
 
 </RelativeLayout>

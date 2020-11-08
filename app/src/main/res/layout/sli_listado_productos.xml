@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/layout_primary"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/tvCodigo"
+        android:textColor="@color/colorAccent"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="15dp"
+        android:text="@string/sli_productos_codigo"
+        android:textSize="12sp"
+        android:typeface="sans" />
+
+    <TextView
+        android:id="@+id/tvNombreProducto"
+        android:textColor="@color/colorAccent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_toStartOf="@+id/tvPrecioProducto"
+        android:layout_toLeftOf="@+id/tvPrecioProducto"
+        android:layout_toEndOf="@+id/tvCodigo"
+        android:layout_toRightOf="@+id/tvCodigo"
+        android:text="@string/sli_productos_nombre"
+        android:textSize="12sp"
+        android:typeface="sans" />
+
+    <TextView
+        android:id="@+id/tvPrecioProducto"
+        android:textColor="@color/colorAccent"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_toStartOf="@+id/tvStockProducto"
+        android:layout_toLeftOf="@+id/tvStockProducto"
+        android:text="@string/sli_productos_stock"
+        android:textSize="12sp"
+        android:typeface="sans" />
+
+    <TextView
+        android:id="@+id/tvStockProducto"
+        android:textColor="@color/colorAccent"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="15dp"
+        android:text="@string/sli_productos_stock"
+        android:textSize="12sp"
+        android:typeface="sans" />
+
+</RelativeLayout>

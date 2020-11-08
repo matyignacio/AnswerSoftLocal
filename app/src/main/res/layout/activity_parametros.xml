@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView1"
+    style="@style/layout_primary">
+
+    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_uiconfiguracion"
+        style="@style/background_card"
+        tools:context="com.desarrollo.kuky.answersoft.ui.UIParametros">
+
+        <TextView
+            android:id="@+id/tvTitulo"
+            style="@style/tv_primary_bold_left"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="Configurar parametros" />
+
+        <TextView
+            android:id="@+id/tvVendedor"
+            style="@style/tv_primary_mini"
+            android:layout_below="@+id/tvTitulo"
+            android:layout_marginTop="15dp"
+            android:text="ID Vendedor" />
+
+        <EditText
+            android:id="@+id/etVendedor"
+            style="@style/et_primary"
+            android:layout_below="@+id/tvVendedor"
+            android:layout_centerHorizontal="true"
+            android:inputType="number" />
+
+        <TextView
+            android:id="@+id/tvPuntoVenta"
+            style="@style/tv_primary_mini"
+            android:layout_below="@+id/etVendedor"
+            android:text="Punto de venta" />
+
+        <EditText
+            android:id="@+id/etPuntoVenta"
+            style="@style/et_primary"
+            android:layout_below="@+id/tvPuntoVenta"
+            android:layout_centerHorizontal="true"
+            android:inputType="number" />
+
+        <TextView
+            android:id="@+id/tvLimiteClientes"
+            style="@style/tv_primary_mini"
+            android:layout_below="@+id/etPuntoVenta"
+            android:text="Límite clientes" />
+
+        <EditText
+            android:id="@+id/etLimiteClientes"
+            style="@style/et_primary"
+            android:layout_below="@+id/tvLimiteClientes"
+            android:layout_centerHorizontal="true"
+            android:inputType="number" />
+
+        <TextView
+            android:id="@+id/tvLimiteProductos"
+            style="@style/tv_primary_mini"
+            android:layout_below="@+id/etLimiteClientes"
+            android:text="Límite productos" />
+
+        <EditText
+            android:id="@+id/etLimiteProductos"
+            style="@style/et_primary"
+            android:layout_below="@+id/tvLimiteProductos"
+            android:layout_centerHorizontal="true"
+            android:inputType="number" />
+
+        <Button
+            android:id="@+id/bAceptar"
+            style="@style/b_primary"
+            android:layout_below="@+id/etLimiteProductos"
+            android:layout_centerHorizontal="true"
+            android:onClick="guardarParametros"
+            android:text="Aceptar" />
+
+    </RelativeLayout>
+</ScrollView>

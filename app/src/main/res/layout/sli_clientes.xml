@@ -1,32 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="5dip">
+    style="@style/background_card"
+    android:orientation="horizontal">
 
     <!--  sli_clientes  -->
     <TextView
         android:id="@+id/tvDescripcionCliente"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="title"
-        android:textSize="18dp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textColor="#000000" />
+        style="@style/tv_primary_bold_left"
+        android:text="title" />
 
     <TextView
         android:id="@+id/tvDomicilioCliente"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="title"
-        android:textSize="10dp"
-        android:textColor="#000000"
-        android:layout_below="@+id/tvDescripcionCliente"
-        android:layout_marginTop="5dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        style="@style/tv_primary_mini"
+        android:layout_below="@id/tvDescripcionCliente"
+        android:text="title" />
 
 </RelativeLayout>

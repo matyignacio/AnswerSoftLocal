@@ -9,6 +9,7 @@
     <string name="title_activity_uiproductos">Productos</string>
     <string name="title_activity_uicliente_seleccionado">Cliente</string>
     <string name="title_activity_uiproducto_seleccionado">UIProductoSeleccionado</string>
+    <string name="title_activity_uipresupuesto">Generar presupuesto</string>
     <string name="action_search">Buscar...</string>
     <string name="title_activity_asdasdad">asdasdad</string>
     <string name="title_activity_uilogin">Inicio de sesion</string>
@@ -16,7 +17,7 @@
     <!-- Strings related to login -->
     <string name="prompt_email">Nombre de usuario</string>
     <string name="prompt_password">Clave</string>
-    <string name="action_sign_in">Ingreso</string>
+    <string name="action_sign_in">Ingresar</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
@@ -25,4 +26,29 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="custom_dialog_cerrar_sesion">¿Esta seguro que desea cerrar sesión?</string>
+    <string name="custom_dialog_esta_seguro">Esta seguro?</string>
+    <string name="custom_dialog_aceptar">Aceptar</string>
+    <string name="custom_dialog_cancelar">Cancelar</string>
+    <string name="activity_presupuesto_lista_productos">lista productos</string>
+    <string name="activity_presupuesto_codigo_producto">codigo producto</string>
+    <string name="activity_presupuesto_descripcion_del_producto">Descripcion del producto</string>
+    <string name="activity_presupuesto_subtotal">$0</string>
+    <string name="activity_presupuesto_agregar_producto">agregar producto</string>
+    <string name="activity_presupuesto_cantidad">cantidad</string>
+    <string name="activity_presupuesto_guardar_pedido">Guardar presupuesto</string>
+    <string name="activity_presupuesto_pedir_total">$0</string>
+    <string name="activity_lista_productos_buscar_producto">Buscar producto...</string>
+    <string name="activity_lista_productos_codigo">CODIGO</string>
+    <string name="activity_lista_productos_nombre">NOMBRE</string>
+    <string name="activity_lista_productos_precio">PRECIO</string>
+    <string name="activity_lista_productos_stock">STOCK</string>
+    <string name="sli_productos_recibo">RECIBO 000100000017</string>
+    <string name="sli_productos_total">$ 16547.00</string>
+    <string name="sli_productos_codigo">0001</string>
+    <string name="sli_productos_stock">23</string>
+    <string name="sli_productos_nombre">cal viva molida loma blanca</string>
+    <string name="sli_pedido_cantidad">2</string>
+    <string name="sli_pedido_nombre">CAL VIVA MOLIDA LOMA BLANCA</string>
+    <string name="sli_pedido_precio">$630</string>
 </resources>

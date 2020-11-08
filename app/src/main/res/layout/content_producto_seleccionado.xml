@@ -2,146 +2,76 @@
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/backGroundColor"
+    style="@style/layout_primary"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.desarrollo.kuky.answersoft.ui.UIProductoSeleccionado">
 
     <RelativeLayout
+        style="@style/background_card"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-        <TextView
-            android:id="@+id/tv1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:text="Stock:"
-            android:textColor="@android:color/background_dark"
-            android:textSize="15dp"
-            tools:ignore="HardcodedText,SpUsage" />
-
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
 
         <TextView
-            android:id="@+id/tv2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
+            android:id="@+id/tvStock"
+            style="@style/tv_primary_mini"
+            android:text="Stock:" />
+
+        <EditText
+            android:id="@+id/etStock"
+            style="@style/et_primary"
+            android:layout_below="@+id/tvStock"
+            android:gravity="end"
+            android:inputType="numberDecimal"
+            android:text="Stock del "
+            android:textAlignment="textEnd" />
+
+        <TextView
+            android:id="@+id/tvPrecioVenta"
+            style="@style/tv_primary_mini"
             android:layout_below="@+id/etStock"
-            android:layout_marginTop="20dp"
-            android:text="Precio de venta:"
-            android:textColor="@android:color/background_dark"
-            android:textSize="15dp"
-            tools:ignore="HardcodedText,SpUsage" />
+            android:text="Precio de venta:" />
+
+        <EditText
+            android:id="@+id/etPrecioVenta"
+            style="@style/et_primary"
+            android:layout_below="@+id/tvPrecioVenta"
+            android:gravity="end"
+            android:inputType="numberDecimal"
+            android:text="Calculando..."
+            android:textAlignment="textEnd" />
 
         <TextView
-            android:id="@+id/tv3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
+            android:id="@+id/tvCodigoBarra"
+            style="@style/tv_primary_mini"
             android:layout_below="@+id/etPrecioVenta"
-            android:layout_marginTop="20dp"
-            android:text="Codigo de barra:"
-            android:textColor="@android:color/background_dark"
-            android:textSize="15dp"
-            tools:ignore="HardcodedText,SpUsage" />
+            android:text="Codigo de barra:" />
+
+        <EditText
+            android:id="@+id/etCodigoBarra"
+            style="@style/et_primary"
+            android:layout_below="@+id/tvCodigoBarra"
+            android:gravity="end"
+            android:inputType="text"
+            android:text="Codigo de barra"
+            android:textAlignment="textEnd" />
 
         <Button
             android:id="@+id/bGuardar"
-            style="@style/botonRojoBlanco"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentStart="true"
+            style="@style/b_primary"
             android:layout_below="@+id/etCodigoBarra"
-            android:layout_marginTop="20dp"
-            android:elevation="5dp"
             android:onClick="Guardar"
-            android:text="Guardar"
-            android:textStyle="normal|bold"
-            tools:ignore="HardcodedText,UnusedAttribute">
+            android:text="Guardar">
 
             <requestFocus />
         </Button>
 
         <Button
             android:id="@+id/bEtiqueta"
-            style="@style/botonRojoBlanco"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentStart="true"
+            style="@style/b_primary"
             android:layout_below="@+id/bGuardar"
-            android:layout_marginTop="20dp"
             android:onClick="InsertarEtiqueta"
-            android:text="Etiqueta"
-            android:textStyle="normal|bold"
-            tools:ignore="HardcodedText,UnusedAttribute" />
-
-        <EditText
-            android:id="@+id/etCodigoBarra"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/tv3"
-            android:inputType="text"
-            android:text="Codigo de barra"
-            android:textAlignment="textEnd"
-            android:textColor="@android:color/background_dark"
-            android:textSize="20dp"
-            tools:ignore="HardcodedText,SpUsage" />
-
-        <EditText
-            android:id="@+id/etStock"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/tv1"
-            android:inputType="numberDecimal"
-            android:text="Stock del "
-            android:textAlignment="textEnd"
-            android:textColor="@android:color/background_dark"
-            android:textSize="20dp"
-            tools:ignore="HardcodedText,SpUsage" />
-
-        <TextView
-            android:id="@+id/tvPesos"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/tv2"
-            android:text="$ "
-            android:layout_marginTop="10dp"
-            android:textAlignment="textEnd"
-            android:textColor="@android:color/background_dark"
-            android:textSize="20dp" />
-
-        <EditText
-            android:id="@+id/etPrecioVenta"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv2"
-            android:layout_toEndOf="@+id/tvPesos"
-            android:layout_toRightOf="@+id/tvPesos"
-            android:inputType="numberDecimal"
-            android:text="Calculando..."
-            android:textAlignment="textEnd"
-            android:textColor="@android:color/background_dark"
-            android:textSize="20dp"
-            tools:ignore="HardcodedText,SpUsage" />
+            android:text="Etiqueta" />
 
 
     </RelativeLayout>

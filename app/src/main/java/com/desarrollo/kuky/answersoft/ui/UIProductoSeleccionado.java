@@ -14,6 +14,8 @@ import com.desarrollo.kuky.answersoft.controlador.OfertasControlador;
 import com.desarrollo.kuky.answersoft.controlador.ProductoControlador;
 import com.desarrollo.kuky.answersoft.util.Util;
 
+import static com.desarrollo.kuky.answersoft.util.Util.abrirActivity;
+
 public class UIProductoSeleccionado extends AppCompatActivity {
     TextView tvTitulo;
     EditText etStock, etPrecioVenta, etCodigoBarra;
@@ -61,12 +63,10 @@ public class UIProductoSeleccionado extends AppCompatActivity {
         }
     }
 
-   /* @Override
-    protected void onResume() {
-        super.onResume();
-        etStock.clearFocus();
-        etCodigoBarra.clearFocus();
-    }*/
+    @Override
+    public void onBackPressed() {
+        abrirActivity(this, UIProductos.class);
+    }
 
     public void Guardar(View view) {
         ProductoControlador pControlador = new ProductoControlador();

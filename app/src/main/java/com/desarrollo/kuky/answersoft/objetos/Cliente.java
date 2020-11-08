@@ -10,6 +10,7 @@ public class Cliente {
     private String telefono;
     private String tipoResponsabilidad;
     private String numeroCuit;
+    private String codLista;
 
     public int getIdCliente() {
         return idCliente;
@@ -57,6 +58,14 @@ public class Cliente {
 
     public void setNumeroCuit(String numeroCuit) {
         this.numeroCuit = numeroCuit;
+    }
+
+    public String getCodLista() {
+        return codLista;
+    }
+
+    public void setCodLista(String codLista) {
+        this.codLista = codLista;
     }
 
     @Override

@@ -2,108 +2,69 @@
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/backGroundColor"
+    style="@style/layout_primary"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.desarrollo.kuky.answersoft.ui.UIClienteSeleccionado"
     tools:showIn="@layout/activity_cliente_seleccionado">
 
     <RelativeLayout
+        style="@style/background_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
         <TextView
-            android:id="@+id/tv1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:text="Direccion:"
-            android:textColor="@android:color/background_dark"
-            android:textSize="15dp" />
+            android:id="@+id/tvDireccion"
+            style="@style/tv_primary_mini"
+            android:text="Direccion:" />
 
         <TextView
             android:id="@+id/etDireccionCliente"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/tv1"
-            android:text="Direccion Cliente"
-            android:textColor="@android:color/background_dark"
-            android:textSize="20dp" />
+            style="@style/et_primary_alternativo"
+            android:layout_below="@id/tvDireccion"
+            android:text="Direccion Cliente" />
 
         <TextView
-            android:id="@+id/tv2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/etDireccionCliente"
-            android:layout_marginTop="10dp"
-            android:text="Telefono:"
-            android:textColor="@android:color/background_dark"
-            android:textSize="15dp" />
+            android:id="@+id/tvTelefono"
+            style="@style/tv_primary_mini"
+            android:layout_below="@id/etDireccionCliente"
+            android:text="Telefono:" />
 
         <TextView
             android:id="@+id/etTelefonoCliente"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/tv2"
-            android:text="Telefono Cliente"
-            android:textColor="@android:color/background_dark"
-            android:textSize="20dp" />
+            style="@style/et_primary_alternativo"
+            android:layout_below="@id/tvTelefono"
+            android:text="Telefono Cliente" />
 
         <TextView
-            android:id="@+id/tv3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/etTelefonoCliente"
-            android:layout_marginTop="10dp"
-            android:text="Tipo de Responsabilidad:"
-            android:textColor="@android:color/background_dark"
-            android:textSize="15dp" />
+            android:id="@+id/tvResponsabilidad"
+            style="@style/tv_primary_mini"
+            android:layout_below="@id/etTelefonoCliente"
+            android:ems="15"
+            android:text="Tipo de Responsabilidad:" />
 
         <TextView
             android:id="@+id/etTipoResponsabilidad"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/tv3"
-            android:text="Tipo de Responsabilidad Cliente"
-            android:textColor="@android:color/background_dark"
-            android:textSize="20dp" />
+            style="@style/et_primary_alternativo"
+            android:layout_below="@id/tvResponsabilidad"
+            android:text="Tipo de Responsabilidad Cliente" />
 
         <TextView
-            android:id="@+id/tv4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/etTipoResponsabilidad"
-            android:layout_marginTop="10dp"
-            android:text="CUIT:"
-            android:textColor="@android:color/background_dark"
-            android:textSize="15dp" />
+            android:id="@+id/tvCuit"
+            style="@style/tv_primary_mini"
+            android:layout_below="@id/etTipoResponsabilidad"
+            android:text="CUIT:" />
 
         <TextView
             android:id="@+id/etCuit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@id/tv4"
-            android:text="CUIT del cliente"
-            android:textColor="@android:color/background_dark"
-            android:textSize="20dp" />
+            style="@style/et_primary_alternativo"
+            android:layout_below="@id/tvCuit"
+            android:text="CUIT del cliente" />
+
+        <Button
+            android:id="@+id/bGenerarPresupuesto"
+            style="@style/b_primary"
+            android:layout_below="@+id/etCuit"
+            android:layout_centerHorizontal="true"
+            android:text="Generar presupuesto" />
     </RelativeLayout>
 </android.support.v4.widget.NestedScrollView>

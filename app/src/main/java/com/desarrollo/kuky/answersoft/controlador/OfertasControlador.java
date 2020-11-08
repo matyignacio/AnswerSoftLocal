@@ -13,8 +13,8 @@ import com.mysql.jdbc.PreparedStatement;
 
 import java.sql.SQLException;
 
-import static com.desarrollo.kuky.answersoft.R.style.botonRojoBlanco;
-import static com.desarrollo.kuky.answersoft.R.style.botonRojoNegro;
+import static com.desarrollo.kuky.answersoft.R.style.b_primary;
+import static com.desarrollo.kuky.answersoft.R.style.b_primary_disabled;
 
 /**
  * Created by Kuky on 19/11/2016.
@@ -37,7 +37,7 @@ public class OfertasControlador {
 
         @Override
         protected void onPreExecute() {
-            b.setTextAppearance(a, botonRojoNegro);
+            b.setTextAppearance(a, b_primary_disabled);
             Util util = new Util(a);
             b.setTypeface(util.getTypeface());
         }
@@ -72,7 +72,7 @@ public class OfertasControlador {
         @Override
         protected void onPostExecute(String s) {
             Toast.makeText(a, s, Toast.LENGTH_SHORT).show();
-            b.setTextAppearance(a, botonRojoBlanco);
+            b.setTextAppearance(a, b_primary);
             Util util = new Util(a);
             b.setTypeface(util.getTypeface());
         }

@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -18,6 +20,8 @@ import com.mysql.jdbc.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import static com.desarrollo.kuky.answersoft.util.Util.mostrarMensaje;
 
 /**
  * Created by kuky on 15/10/16.
@@ -61,12 +65,22 @@ public class ClienteControlador {
             Connection conn;
             PreparedStatement ps;
             ResultSet rs;
-            int cantidadRegistros, i = 0;
+            int cantidadRegistros, i = 0, limit = 10000;
             try {
+                ////////////////////////////////////////////////////////////////////////////////////
+                SQLiteDatabase db = BaseHelper.getInstance(a).getReadableDatabase();
+                Cursor c = db.rawQuery("SELECT limite_clientes FROM parametros", null);
+                if (c.moveToFirst()) {
+                    limit = c.getInt(0);
+                }
+                c.close();
+                db.close();
+                ////////////////////////////////////////////////////////////////////////////////////
                 conn = (Connection) Conexion.GetConnection(a);
-                String consultaSql = "SELECT IDCLIENTE,RAZONSOC,DOMICILIO FROM clientes WHERE VER=1 ORDER BY RAZONSOC";
+                String consultaSql = "SELECT IDCLIENTE,RAZONSOC,DOMICILIO FROM clientes WHERE VER=1 ORDER BY RAZONSOC LIMIT ?";
                 ps = (PreparedStatement) conn.prepareStatement(consultaSql);
-                ps.execute();
+                ps.setInt(1, limit);
+                ps.executeQuery();
                 rs = ps.getResultSet();
                 cantidadRegistros = Util.obtenerCantidadRegistros(rs);
                 do {
@@ -142,7 +156,7 @@ public class ClienteControlador {
             ResultSet rs;
             try {
                 conn = (Connection) Conexion.GetConnection(a);
-                String consultaSql = "SELECT TELEFONO, TIPORESP, NROCUIT FROM clientes WHERE IDCLIENTE=?";
+                String consultaSql = "SELECT TELEFONO, TIPORESP, NROCUIT, CODLISTA FROM clientes WHERE IDCLIENTE=?";
                 ps = (PreparedStatement) conn.prepareStatement(consultaSql);
                 ps.setInt(1, c.getIdCliente());
                 ps.executeQuery();
@@ -151,6 +165,7 @@ public class ClienteControlador {
                     c.setTelefono(rs.getString(1));
                     c.setTipoResponsabilidad(rs.getString(2));
                     c.setNumeroCuit(rs.getString(3));
+                    c.setCodLista(rs.getString(4));
                 }
                 rs.close();
                 ps.close();
@@ -169,7 +184,7 @@ public class ClienteControlador {
                 Intent intent = new Intent(a, UIClienteSeleccionado.class);
                 a.startActivity(intent);
             } else {
-                Toast.makeText(a, s.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(a, s, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -195,13 +210,28 @@ public class ClienteControlador {
             Connection conn;
             PreparedStatement ps;
             ResultSet rs;
+            int limit = 10000;
             clientes = new ArrayList<>();
+            try {
+
+                SQLiteDatabase db = BaseHelper.getInstance(a).getReadableDatabase();
+                Cursor c = db.rawQuery("SELECT limite_clientes FROM parametros", null);
+                if (c.moveToFirst()) {
+                    limit = c.getInt(0);
+                }
+                c.close();
+                db.close();
+                ////////////////////////////////////////////////////////////////////////////////////
+            } catch (Exception e) {
+                mostrarMensaje(a, e.toString());
+            }
             if (razonSocial.equals("")) {
                 try {
                     conn = (Connection) Conexion.GetConnection(a);
-                    String consultaSql = "SELECT IDCLIENTE,RAZONSOC,DOMICILIO FROM clientes WHERE VER=1 ORDER BY RAZONSOC";
+                    String consultaSql = "SELECT IDCLIENTE,RAZONSOC,DOMICILIO FROM clientes WHERE VER=1 ORDER BY RAZONSOC LIMIT ?";
                     ps = (PreparedStatement) conn.prepareStatement(consultaSql);
-                    ps.execute();
+                    ps.setInt(1, limit);
+                    ps.executeQuery();
                     rs = ps.getResultSet();
                     while (rs.next()) {
                         Cliente c = new Cliente();
@@ -221,9 +251,10 @@ public class ClienteControlador {
             } else {
                 try {
                     conn = (Connection) Conexion.GetConnection(a);
-                    String consultaSql = "SELECT IDCLIENTE,RAZONSOC,DOMICILIO FROM clientes WHERE VER = 1 AND RAZONSOC like ? ORDER BY RAZONSOC";
+                    String consultaSql = "SELECT IDCLIENTE,RAZONSOC,DOMICILIO FROM clientes WHERE VER = 1 AND RAZONSOC like ? ORDER BY RAZONSOC LIMIT ?";
                     ps = (PreparedStatement) conn.prepareStatement(consultaSql);
                     ps.setString(1, "%" + razonSocial + "%");
+                    ps.setInt(2, limit);
                     ps.executeQuery();
                     rs = ps.getResultSet();
                     while (rs.next()) {
@@ -246,7 +277,7 @@ public class ClienteControlador {
 
         @Override
         protected void onPostExecute(String s) {
-            if (s.toString().toString().equals("")) {
+            if (s.equals("")) {
                 lvaClientes adaptador = new lvaClientes(a, clientes);
                 l.setAdapter(adaptador);
             } else {
