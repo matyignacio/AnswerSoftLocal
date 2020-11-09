@@ -153,7 +153,7 @@ public class UILogin extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String s) {
-            if (s.toString().equals("correcto")) {
+            if (s.equals("correcto")) {
                 abrirActivity(a, UIPrincipal.class);
             } else {
                 Toast.makeText(a, s, Toast.LENGTH_SHORT).show();

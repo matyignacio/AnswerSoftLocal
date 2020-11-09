@@ -1,9 +1,7 @@
 package com.desarrollo.kuky.answersoft.ui;
 
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -17,71 +15,50 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.desarrollo.kuky.answersoft.R;
 import com.desarrollo.kuky.answersoft.controlador.BaseHelper;
+import com.desarrollo.kuky.answersoft.controlador.ComprobantePCControlador;
+import com.desarrollo.kuky.answersoft.controlador.ComprobantePDControlador;
 import com.desarrollo.kuky.answersoft.controlador.ConfigaccControlador;
-import com.desarrollo.kuky.answersoft.controlador.ProductoControlador;
-import com.desarrollo.kuky.answersoft.objetos.Configacc;
-import com.desarrollo.kuky.answersoft.objetos.Moneda;
-import com.desarrollo.kuky.answersoft.objetos.Producto;
 import com.desarrollo.kuky.answersoft.util.Util;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 
-import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
 import static com.desarrollo.kuky.answersoft.util.Util.abrirActivity;
 
-public class UIProductos extends AppCompatActivity
+
+public class UIPresupuestos extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private ListView listaProductos;
-    public static Producto p;
-    public static ArrayList<Configacc> configaccs = new ArrayList<>();
-    public static Moneda moneda;
-    public String busqueda = "";
+    private ListView lvPresupuestos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_productos);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarProductos);
+        setContentView(R.layout.activity_presupuestos);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarPresupuestos);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                IntentIntegrator scanIntegrator = new IntentIntegrator(UIProductos.this);
-                scanIntegrator.initiateScan();
-            }
-        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         // CAPTURAMOS LOS ELEMENTOS
-        listaProductos = (ListView) findViewById(R.id.lvProductos);
-        ConfigaccControlador configaccControlador = new ConfigaccControlador();
-        configaccControlador.editarProductos(this);
+        lvPresupuestos = (ListView) findViewById(R.id.lvPresupuestos);
         // CARGAMOS LOS CAMPOS
-        final ProductoControlador productoControlador = new ProductoControlador();
-        productoControlador.buscarPorDescripcion(UIProductos.this, listaProductos, busqueda);
-        listaProductos.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        listaProductos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        final ComprobantePCControlador comprobantePCControlador = new ComprobantePCControlador();
+        comprobantePCControlador.buscarPorCliente(this, lvPresupuestos, "");
+        lvPresupuestos.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        lvPresupuestos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                p = productoControlador.extraerDeLista(position);
-                productoControlador.extraerPorId(UIProductos.this, p);
+                ComprobantePDControlador comprobantePDControlador = new ComprobantePDControlador();
+                comprobantePDControlador.extraerPorNumComp(UIPresupuestos.this, comprobantePCControlador.extraerDeLista(position).getNROCOMP());
             }
         });
+
 
     }
 
@@ -98,8 +75,8 @@ public class UIProductos extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.productos, menu);
-        final MenuItem searchItem = menu.findItem(R.id.buscarproductos);
+        getMenuInflater().inflate(R.menu.presupuestos, menu);
+        final MenuItem searchItem = menu.findItem(R.id.buscarpresupustos);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         //permite modificar el hint que el EditText muestra por defecto
         searchView.setQueryHint(getText(R.string.action_search));
@@ -115,15 +92,14 @@ public class UIProductos extends AppCompatActivity
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                busqueda = newText;
-                final ProductoControlador productoControlador = new ProductoControlador();
-                productoControlador.buscarPorDescripcion(UIProductos.this, listaProductos, newText);
-                listaProductos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                final ComprobantePCControlador comprobantePCControlador = new ComprobantePCControlador();
+                comprobantePCControlador.buscarPorCliente(UIPresupuestos.this, lvPresupuestos, newText);
+                lvPresupuestos.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+                lvPresupuestos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        p = productoControlador.extraerDeLista(position);
-                        productoControlador.extraerPorId(UIProductos.this, p);// Le paso esta actividad y desde el postExecute lanzo
-                        // UIProductoSeleccionado
+                        ComprobantePDControlador comprobantePDControlador = new ComprobantePDControlador();
+                        comprobantePDControlador.extraerPorNumComp(UIPresupuestos.this, comprobantePCControlador.extraerDeLista(position).getNROCOMP());
                     }
                 });
                 return true;
@@ -140,12 +116,13 @@ public class UIProductos extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.presupuestos) {
-            abrirActivity(this, UIPresupuestos.class);
+
         } else if (id == R.id.clientes) {
             ConfigaccControlador configaccControlador = new ConfigaccControlador();
             configaccControlador.permisosClientes(this);
         } else if (id == R.id.productos) {
-
+            ConfigaccControlador configaccControlador = new ConfigaccControlador();
+            configaccControlador.permisosProductos(this);
         } else if (id == R.id.parametros) {
             abrirActivity(this, UIParametros.class);
         } else if (id == R.id.cerrarSesion) {
@@ -159,9 +136,9 @@ public class UIProductos extends AppCompatActivity
                         @Override
                         public Void call() throws Exception {
                             ///////////////////////////////////////////////////////////////////////////////////////
-                            SQLiteDatabase db = BaseHelper.getInstance(UIProductos.this).getWritableDatabase();
+                            SQLiteDatabase db = BaseHelper.getInstance(UIPresupuestos.this).getWritableDatabase();
                             db.execSQL("DELETE FROM usuarios");
-                            abrirActivity(UIProductos.this, UILogin.class);
+                            abrirActivity(UIPresupuestos.this, UILogin.class);
                             return null;
                         }
                     },
@@ -178,16 +155,5 @@ public class UIProductos extends AppCompatActivity
         return true;
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-        if (scanningResult != null) {
-            String scanContent = scanningResult.getContents();
-            ProductoControlador productoControlador = new ProductoControlador();
-            productoControlador.extraerPorCodBarra(UIProductos.this, p, scanContent);
-        } else {
-            Toast toast = Toast.makeText(getApplicationContext(),
-                    "No se pudo leer ningun codigo", Toast.LENGTH_SHORT);
-            toast.show();
-        }
-    }
+
 }

@@ -6,9 +6,10 @@
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_clientes">Clientes</string>
+    <string name="title_activity_presupuestos">Presupuestos</string>
     <string name="title_activity_uiproductos">Productos</string>
     <string name="title_activity_uicliente_seleccionado">Cliente</string>
-    <string name="title_activity_uiproducto_seleccionado">UIProductoSeleccionado</string>
+    <string name="title_activity_uiproducto_seleccionado">ProductoSeleccionado</string>
     <string name="title_activity_uipresupuesto">Generar presupuesto</string>
     <string name="action_search">Buscar...</string>
     <string name="title_activity_asdasdad">asdasdad</string>
@@ -43,6 +44,10 @@
     <string name="activity_lista_productos_nombre">NOMBRE</string>
     <string name="activity_lista_productos_precio">PRECIO</string>
     <string name="activity_lista_productos_stock">STOCK</string>
+    <string name="activity_presupuesto_realizado_descripcion">DESCRIPCION</string>
+    <string name="activity_presupuesto_realizado_precio">PRECIO</string>
+    <string name="activity_presupuesto_realizado_cantidad">CANT</string>
+    <string name="activity_presupuesto_realizado_pedidos">Pedido</string>
     <string name="sli_productos_recibo">RECIBO 000100000017</string>
     <string name="sli_productos_total">$ 16547.00</string>
     <string name="sli_productos_codigo">0001</string>
@@ -51,4 +56,7 @@
     <string name="sli_pedido_cantidad">2</string>
     <string name="sli_pedido_nombre">CAL VIVA MOLIDA LOMA BLANCA</string>
     <string name="sli_pedido_precio">$630</string>
+    <string name="presupuesto_total">Total</string>
+    <string name="presupuesto_cliente">Cliente</string>
+    <string name="presupuesto_comp">Comp</string>
 </resources>

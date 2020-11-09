@@ -14,6 +14,7 @@ import com.desarrollo.kuky.answersoft.controlador.OfertasControlador;
 import com.desarrollo.kuky.answersoft.controlador.ProductoControlador;
 import com.desarrollo.kuky.answersoft.util.Util;
 
+import static com.desarrollo.kuky.answersoft.util.Util.RedondearFloat;
 import static com.desarrollo.kuky.answersoft.util.Util.abrirActivity;
 
 public class UIProductoSeleccionado extends AppCompatActivity {
@@ -44,13 +45,10 @@ public class UIProductoSeleccionado extends AppCompatActivity {
         bGuardar.setTypeface(util.getTypeface());
         bEtiqueta.setTypeface(util.getTypeface());
         // CARGAMOS LOS CAMPOS
-        float stock = 0, precioVenta = 0;
-        stock = Util.RedondearFloat(UIProductos.p.getStock(), 2);
         tvTitulo.setText(UIProductos.p.getDescripcion());
-        etStock.setText(String.valueOf(stock));
+        etStock.setText(String.valueOf(RedondearFloat(UIProductos.p.getStock(), 2)));
         etStock.setSelectAllOnFocus(true);
-        precioVenta = UIProductos.p.getPrecioVenta();
-        etPrecioVenta.setText(String.valueOf(Util.RedondearFloat(precioVenta, 2)));
+        etPrecioVenta.setText(String.valueOf(RedondearFloat(UIProductos.p.getPrecioVenta(), 2)));
         etPrecioVenta.setSelectAllOnFocus(true);
         etCodigoBarra.setText(UIProductos.p.getCodAlternativo());
         for (int i = 0; i < UIProductos.configaccs.size(); i++) {

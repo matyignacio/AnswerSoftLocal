@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/background_card">
+
+    <TextView
+        android:id="@+id/tvNumeroComprobante"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/sli_pedido_cantidad"
+        android:textColor="@color/colorAccent"
+        android:textSize="14sp"
+        android:typeface="sans" />
+
+    <TextView
+        android:id="@+id/tvNombreCliente"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tvNumeroComprobante"
+        android:layout_toStartOf="@+id/tvTotal"
+        android:layout_toLeftOf="@+id/tvTotal"
+        android:layout_toEndOf="@+id/tvNumeroComprobante"
+        android:layout_toRightOf="@+id/tvNumeroComprobante"
+        android:text="@string/sli_pedido_nombre"
+        android:textColor="@color/colorAccent"
+        android:textSize="14sp"
+        android:typeface="sans" />
+
+    <TextView
+        android:id="@+id/tvTotal"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tvNombreCliente"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:gravity="center_horizontal"
+        android:text="@string/sli_pedido_precio"
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent"
+        android:textSize="14sp"
+        android:typeface="sans" />
+
+</RelativeLayout>

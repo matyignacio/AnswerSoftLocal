@@ -45,27 +45,31 @@ public class UsuarioControlador {
             Connection conn;
             PreparedStatement ps;
             ResultSet rs;
+            String retorno = "No se pudo conectar a la dase de datos";
             try {
                 conn = (Connection) Conexion.GetConnection(a);
-                String consultaSql = "SELECT IDUSUARIO, NOMBRE, PASSWORD FROM usuarios WHERE NOMBRE like '" + nombre + "';";
-                ps = (PreparedStatement) conn.prepareStatement(consultaSql);
-                ps.execute();
-                rs = ps.getResultSet();
-                if (rs.next()) {
-                    UILogin.usuario.setId(rs.getString(1));
-                    UILogin.usuario.setNombre(rs.getString(2));
-                    UILogin.usuario.setPass(rs.getString(3));
-                } else {
-                    UILogin.usuario.setNombre(null);
+                if (conn != null) {
+                    String consultaSql = "SELECT IDUSUARIO, NOMBRE, PASSWORD FROM usuarios WHERE NOMBRE like '" + nombre + "';";
+                    ps = (PreparedStatement) conn.prepareStatement(consultaSql);
+                    ps.execute();
+                    rs = ps.getResultSet();
+                    if (rs.next()) {
+                        UILogin.usuario.setId(rs.getString(1));
+                        UILogin.usuario.setNombre(rs.getString(2));
+                        UILogin.usuario.setPass(rs.getString(3));
+                    } else {
+                        UILogin.usuario.setNombre(null);
+                    }
+                    rs.close();
+                    ps.close();
+                    conn.close();
+                    if (UILogin.usuario.getNombre() == null) {
+                        retorno = "El nombre de usuario es inexistente";
+                    } else {
+                        retorno = "";
+                    }
                 }
-                rs.close();
-                ps.close();
-                conn.close();
-                if (UILogin.usuario.getNombre() == null) {
-                    return "El nombre de usuario es inexistente";
-                } else {
-                    return "";
-                }
+                return retorno;
             } catch (SQLException e) {
                 e.printStackTrace();
                 return e.toString();

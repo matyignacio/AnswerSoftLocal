@@ -10,6 +10,10 @@
             android:id="@+id/productos"
             android:icon="@drawable/carrito"
             android:title="Productos" />
+        <item
+            android:id="@+id/presupuestos"
+            android:icon="@drawable/ic_presupuesto"
+            android:title="Presupuestos" />
     </group>
     <item android:title="Administracion">
         <menu>

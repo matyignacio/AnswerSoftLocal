@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/layout_primary"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".ui.UIPresupuestos"
+    tools:showIn="@layout/app_bar_presupuestos">
+
+
+    <RelativeLayout
+        android:id="@+id/rlTitulosPresupuesto"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/tvNumeroComprobante"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/presupuesto_comp"
+            android:textColor="@color/colorAccent"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:typeface="sans" />
+
+        <TextView
+            android:id="@+id/tvNombreCliente"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tvNumeroComprobante"
+            android:layout_toStartOf="@+id/tvTotal"
+            android:layout_toLeftOf="@+id/tvTotal"
+            android:layout_toEndOf="@+id/tvNumeroComprobante"
+            android:layout_toRightOf="@+id/tvNumeroComprobante"
+            android:text="@string/presupuesto_cliente"
+            android:textColor="@color/colorAccent"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:typeface="sans" />
+
+        <TextView
+            android:id="@+id/tvTotal"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tvNombreCliente"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:gravity="center_horizontal"
+            android:text="@string/presupuesto_total"
+            android:textAlignment="center"
+            android:textColor="@color/colorAccent"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:typeface="sans" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/lvPresupuestos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rlTitulosPresupuesto" />
+</RelativeLayout>

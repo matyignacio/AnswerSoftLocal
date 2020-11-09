@@ -116,6 +116,8 @@ public class UIClientes extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.clientes) {
+        } else if (id == R.id.presupuestos) {
+            abrirActivity(this, UIPresupuestos.class);
         } else if (id == R.id.productos) {
             ConfigaccControlador configaccControlador = new ConfigaccControlador();
             configaccControlador.permisosProductos(this);

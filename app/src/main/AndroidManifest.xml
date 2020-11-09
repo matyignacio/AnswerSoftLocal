@@ -10,6 +10,13 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.UIPresupuestoSeleccionado"></activity>
+        <activity
+            android:name=".ui.UIPresupuestos"
+            android:configChanges="orientation"
+            android:label="@string/title_activity_presupuestos"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.UIListaProductos"
             android:screenOrientation="portrait" />

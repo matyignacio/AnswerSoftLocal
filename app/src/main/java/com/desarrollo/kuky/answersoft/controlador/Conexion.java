@@ -41,8 +41,6 @@ public class Conexion {
             } catch (SQLException e) {
                 e.printStackTrace();
                 conexion = null;
-            } finally {
-                return conexion;
             }
         } else {
             Toast.makeText(a, "Debe configurar la conexion al servidor", Toast.LENGTH_SHORT).show();

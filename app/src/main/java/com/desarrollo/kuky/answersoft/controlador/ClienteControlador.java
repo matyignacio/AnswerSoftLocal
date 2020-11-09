@@ -3,7 +3,6 @@ package com.desarrollo.kuky.answersoft.controlador;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -21,6 +20,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import static com.desarrollo.kuky.answersoft.util.Util.abrirActivity;
 import static com.desarrollo.kuky.answersoft.util.Util.mostrarMensaje;
 
 /**
@@ -181,8 +181,7 @@ public class ClienteControlador {
         protected void onPostExecute(String s) {
             pDialog.dismiss();
             if (s.equals("")) {
-                Intent intent = new Intent(a, UIClienteSeleccionado.class);
-                a.startActivity(intent);
+                abrirActivity(a, UIClienteSeleccionado.class);
             } else {
                 Toast.makeText(a, s, Toast.LENGTH_SHORT).show();
             }

@@ -7,8 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.widget.Button;
 
-import com.desarrollo.kuky.answersoft.ui.UIClienteSeleccionado;
 import com.desarrollo.kuky.answersoft.ui.UIClientes;
+import com.desarrollo.kuky.answersoft.ui.UIPrincipal;
 import com.desarrollo.kuky.answersoft.util.Util;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
@@ -229,7 +229,8 @@ public class PresupuestoControlador {
                 b.setTextAppearance(a, b_primary);
                 Util util = new Util(a);
                 b.setTypeface(util.getTypeface());
-                abrirActivity(a, UIClienteSeleccionado.class);
+                abrirActivity(a, UIPrincipal.class);
+                mostrarMensaje(a, s);
             } else {
                 mostrarMensaje(a, s);
             }

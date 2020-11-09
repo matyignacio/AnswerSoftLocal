@@ -67,6 +67,12 @@ public class UIPrincipal extends AppCompatActivity
                 configaccControlador.permisosProductos(UIPrincipal.this);
             }
         });
+        bPresupuestos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abrirActivity(UIPrincipal.this, UIPresupuestos.class);
+            }
+        });
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         SQLiteDatabase db = BaseHelper.getInstance(this).getReadableDatabase();
@@ -110,10 +116,10 @@ public class UIPrincipal extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        int bandera = 0;
 
-
-        if (id == R.id.clientes) {
+        if (id == R.id.presupuestos) {
+            abrirActivity(this, UIPresupuestos.class);
+        } else if (id == R.id.clientes) {
             ConfigaccControlador configaccControlador = new ConfigaccControlador();
             configaccControlador.permisosClientes(this);
         } else if (id == R.id.productos) {
