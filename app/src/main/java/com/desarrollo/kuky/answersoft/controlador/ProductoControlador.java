@@ -380,6 +380,15 @@ public class ProductoControlador {
         }
 
         @Override
+        protected void onPreExecute() {
+            pDialog = new ProgressDialog(a);
+            pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            pDialog.setMessage("Estableciendo conexion...");
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        @Override
         protected String doInBackground(String... strings) {
             Connection conn;
             PreparedStatement ps;
@@ -420,6 +429,7 @@ public class ProductoControlador {
 
         @Override
         protected void onPostExecute(String s) {
+            pDialog.dismiss();
             if (s.equals("")) {
                 UIProductos.p = p;
                 abrirActivity(a, UIProductoSeleccionado.class);
@@ -450,6 +460,11 @@ public class ProductoControlador {
             b.setTextAppearance(a, b_primary_disabled);
             Util util = new Util(a);
             b.setTypeface(util.getTypeface());
+            pDialog = new ProgressDialog(a);
+            pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            pDialog.setMessage("Estableciendo conexion...");
+            pDialog.setCancelable(false);
+            pDialog.show();
         }
 
         @Override
@@ -484,6 +499,7 @@ public class ProductoControlador {
 
         @Override
         protected void onPostExecute(String s) {
+            pDialog.dismiss();
             mostrarMensaje(a, s);
             b.setTextAppearance(a, b_primary);
             Util util = new Util(a);
@@ -505,6 +521,15 @@ public class ProductoControlador {
             this.a = a;
             this.l = l;
             this.descripcion = descripcion;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            pDialog = new ProgressDialog(a);
+            pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            pDialog.setMessage("Estableciendo conexion...");
+            pDialog.setCancelable(false);
+            pDialog.show();
         }
 
         @Override
@@ -586,6 +611,7 @@ public class ProductoControlador {
 
         @Override
         protected void onPostExecute(String s) {
+            pDialog.dismiss();
             if (s.equals("")) {
                 lvaProductos adaptador = new lvaProductos(a, productos);
                 l.setAdapter(adaptador);
@@ -613,6 +639,15 @@ public class ProductoControlador {
         }
 
         @Override
+        protected void onPreExecute() {
+            pDialog = new ProgressDialog(a);
+            pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            pDialog.setMessage("Estableciendo conexion...");
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        @Override
         protected String doInBackground(String... strings) {
             Connection conn;
             PreparedStatement ps;
@@ -633,7 +668,7 @@ public class ProductoControlador {
                 try {
                     conn = (Connection) Conexion.GetConnection(a);
                     if (conn != null) {
-                        String consultaSql = "select p.IDPRODUCTO, p.DESCRIP, (p.PRECVENTA*m.VALOR), p.CODALTERN FROM producto_0 p, moneda m WHERE p.PRECIOS=m.CODIGO AND p.VER=1 ORDER BY p.DESCRIP LIMIT ?";
+                        String consultaSql = "select p.IDPRODUCTO, p.DESCRIP, (p.PRECVENTA*m.VALOR), p.CODALTERN, p.STOCK FROM producto_0 p, moneda m WHERE p.PRECIOS=m.CODIGO AND p.VER=1 ORDER BY p.DESCRIP LIMIT ?";
                         ps = (PreparedStatement) conn.prepareStatement(consultaSql);
                         ps.setInt(1, limit);
                         ps.executeQuery();
@@ -645,6 +680,7 @@ public class ProductoControlador {
                             p.setDescripcion(rs.getString(2));
                             p.setPrecioVenta(rs.getFloat(3));
                             p.setCodAlternativo(rs.getString(4));
+                            p.setStock(rs.getFloat(5));
                             productos.add(p);
                         }
                         rs.close();
@@ -661,8 +697,11 @@ public class ProductoControlador {
                 try {
                     conn = (Connection) Conexion.GetConnection(a);
                     if (conn != null) {
-
-                        String consultaSql = "select p.IDPRODUCTO, p.DESCRIP, (p.PRECVENTA*m.VALOR), p.CODALTERN FROM producto_0 p, moneda m WHERE p.PRECIOS=m.CODIGO AND p.VER=1 AND p.DESCRIP like ? ORDER BY p.DESCRIP LIMIT ?";
+                        String consultaSql = "select p.IDPRODUCTO, p.DESCRIP, (p.PRECVENTA*m.VALOR), p.CODALTERN, p.STOCK " +
+                                " FROM producto_0 p, moneda m " +
+                                " WHERE p.PRECIOS=m.CODIGO AND p.VER=1 AND p.DESCRIP like ? " +
+                                " ORDER BY p.DESCRIP " +
+                                " LIMIT ?";
                         ps = (PreparedStatement) conn.prepareStatement(consultaSql);
                         ps.setString(1, "%" + descripcion + "%");
                         ps.setInt(2, limit);
@@ -675,6 +714,7 @@ public class ProductoControlador {
                             p.setDescripcion(rs.getString(2));
                             p.setPrecioVenta(rs.getFloat(3));
                             p.setCodAlternativo(rs.getString(4));
+                            p.setStock(rs.getFloat(5));
                             productos.add(p);
                         }
                         rs.close();
@@ -692,6 +732,7 @@ public class ProductoControlador {
 
         @Override
         protected void onPostExecute(String s) {
+            pDialog.dismiss();
             if (s.equals("")) {
                 lvaListadoProductos adaptador = new lvaListadoProductos(a, productos);
                 l.setAdapter(adaptador);

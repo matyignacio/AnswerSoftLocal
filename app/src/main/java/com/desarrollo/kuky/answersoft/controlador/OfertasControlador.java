@@ -1,6 +1,7 @@
 package com.desarrollo.kuky.answersoft.controlador;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Button;
@@ -21,6 +22,7 @@ import static com.desarrollo.kuky.answersoft.R.style.b_primary_disabled;
  */
 
 public class OfertasControlador {
+    ProgressDialog pDialog;
     private Producto p;
     private Insertar insertar;
 
@@ -40,6 +42,11 @@ public class OfertasControlador {
             b.setTextAppearance(a, b_primary_disabled);
             Util util = new Util(a);
             b.setTypeface(util.getTypeface());
+            pDialog = new ProgressDialog(a);
+            pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            pDialog.setMessage("Estableciendo conexion...");
+            pDialog.setCancelable(false);
+            pDialog.show();
         }
 
         @Override
@@ -75,6 +82,7 @@ public class OfertasControlador {
 
         @Override
         protected void onPostExecute(String s) {
+            pDialog.dismiss();
             Toast.makeText(a, s, Toast.LENGTH_SHORT).show();
             b.setTextAppearance(a, b_primary);
             Util util = new Util(a);

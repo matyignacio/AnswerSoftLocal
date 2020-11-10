@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.desarrollo.kuky.answersoft.R;
 import com.desarrollo.kuky.answersoft.controlador.BaseHelper;
@@ -20,6 +21,7 @@ import static com.desarrollo.kuky.answersoft.util.Util.mostrarMensaje;
 import static com.desarrollo.kuky.answersoft.util.Util.validarCampos;
 
 public class UIParametros extends AppCompatActivity {
+    TextView tvTitulo;
     EditText etVendedor, etPuntoVenta, etLimiteClientes, etLimiteProductos;
     Button bAceptar;
 
@@ -28,6 +30,7 @@ public class UIParametros extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parametros);
         // CAPTURAMOS LOS ELEMENTOS
+        tvTitulo = (TextView) findViewById(R.id.tvTitulo);
         etVendedor = (EditText) findViewById(R.id.etVendedor);
         etPuntoVenta = (EditText) findViewById(R.id.etPuntoVenta);
         etLimiteProductos = (EditText) findViewById(R.id.etLimiteProductos);
@@ -35,6 +38,7 @@ public class UIParametros extends AppCompatActivity {
         bAceptar = (Button) findViewById(R.id.bAceptar);
         // SETEAMOS TYPEFACE
         Util util = new Util(this);
+        tvTitulo.setTypeface(util.getTypeface());
         etVendedor.setTypeface(util.getTypeface());
         etPuntoVenta.setTypeface(util.getTypeface());
         etLimiteProductos.setTypeface(util.getTypeface());

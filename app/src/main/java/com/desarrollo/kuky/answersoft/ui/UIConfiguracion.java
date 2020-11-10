@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.desarrollo.kuky.answersoft.R;
 import com.desarrollo.kuky.answersoft.controlador.BaseHelper;
@@ -20,6 +21,7 @@ import static com.desarrollo.kuky.answersoft.util.Util.mostrarMensaje;
 import static com.desarrollo.kuky.answersoft.util.Util.validarCampos;
 
 public class UIConfiguracion extends AppCompatActivity {
+    TextView tvTitulo;
     EditText etDireccionIP, etPuerto, etNombreBase, etUserBase, etPassBase;
     Button bAceptar;
 
@@ -28,6 +30,7 @@ public class UIConfiguracion extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configuracion);
         // CAPTURAMOS LOS ELEMENTOS
+        tvTitulo = (TextView) findViewById(R.id.tvTitulo);
         etDireccionIP = (EditText) findViewById(R.id.etDireccionIP);
         etPuerto = (EditText) findViewById(R.id.etPuerto);
         etNombreBase = (EditText) findViewById(R.id.etNombreBase);
@@ -36,6 +39,7 @@ public class UIConfiguracion extends AppCompatActivity {
         bAceptar = (Button) findViewById(R.id.bAceptar);
         // SETEAMOS TYPEFACE
         Util util = new Util(this);
+        tvTitulo.setTypeface(util.getTypeface());
         etDireccionIP.setTypeface(util.getTypeface());
         etPuerto.setTypeface(util.getTypeface());
         etNombreBase.setTypeface(util.getTypeface());

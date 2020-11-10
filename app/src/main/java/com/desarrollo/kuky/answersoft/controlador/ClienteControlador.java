@@ -213,6 +213,15 @@ public class ClienteControlador {
         }
 
         @Override
+        protected void onPreExecute() {
+            pDialog = new ProgressDialog(a);
+            pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            pDialog.setMessage("Estableciendo conexion...");
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        @Override
         protected String doInBackground(String... strings) {
             Connection conn;
             PreparedStatement ps;
@@ -287,6 +296,7 @@ public class ClienteControlador {
 
         @Override
         protected void onPostExecute(String s) {
+            pDialog.dismiss();
             if (s.equals("")) {
                 lvaClientes adaptador = new lvaClientes(a, clientes);
                 l.setAdapter(adaptador);

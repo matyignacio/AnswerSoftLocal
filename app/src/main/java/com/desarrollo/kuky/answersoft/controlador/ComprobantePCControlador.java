@@ -1,6 +1,7 @@
 package com.desarrollo.kuky.answersoft.controlador;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -15,6 +16,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ComprobantePCControlador {
+    ProgressDialog pDialog;
     private ArrayList<ComprobantePC> comprobantesXC = new ArrayList<>();
 
 
@@ -27,6 +29,15 @@ public class ComprobantePCControlador {
             this.a = a;
             this.l = l;
             this.razonSocial = razonSocial;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            pDialog = new ProgressDialog(a);
+            pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            pDialog.setMessage("Estableciendo conexion...");
+            pDialog.setCancelable(false);
+            pDialog.show();
         }
 
         @Override
@@ -102,6 +113,7 @@ public class ComprobantePCControlador {
 
         @Override
         protected void onPostExecute(String s) {
+            pDialog.dismiss();
             if (s.equals("")) {
                 lvaPresupuestos adaptador = new lvaPresupuestos(a, comprobantesXC);
                 l.setAdapter(adaptador);
