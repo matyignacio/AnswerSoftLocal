@@ -53,25 +53,27 @@ public class MonedaControlador {
                 UIProductos.moneda = new Moneda();
                 try {
                     conn = (Connection) Conexion.GetConnection(a);
-                    String consultaSql = "SELECT VALOR FROM moneda WHERE CODIGO=?";
-                    ps = (PreparedStatement) conn.prepareStatement(consultaSql);
-                    ps.setFloat(1, productos.get(i).getMoneda());
-                    ps.execute();
-                    rs = ps.getResultSet();
-                    if (rs.next()) {
-                        UIProductos.moneda.setCodigo(productos.get(i).getIdProducto());
-                        UIProductos.moneda.setValor(rs.getFloat(1));
-                    } else {
-                        UIProductos.moneda.setCodigo(0);
-                    }
-                    rs.close();
-                    ps.close();
-                    conn.close();
-                    if (UIProductos.moneda.getCodigo() == 0) {
-                        stringReturn = "No se pudo encontrar la moneda";
-                    } else {
-                        productos.get(i).setPrecioVenta(Util.RedondearFloat(productos.get(i).getPrecioVenta() * UIProductos.moneda.getValor(), 2));
-                        stringReturn = "";
+                    if (conn != null) {
+                        String consultaSql = "SELECT VALOR FROM moneda WHERE CODIGO=?";
+                        ps = (PreparedStatement) conn.prepareStatement(consultaSql);
+                        ps.setFloat(1, productos.get(i).getMoneda());
+                        ps.execute();
+                        rs = ps.getResultSet();
+                        if (rs.next()) {
+                            UIProductos.moneda.setCodigo(productos.get(i).getIdProducto());
+                            UIProductos.moneda.setValor(rs.getFloat(1));
+                        } else {
+                            UIProductos.moneda.setCodigo(0);
+                        }
+                        rs.close();
+                        ps.close();
+                        conn.close();
+                        if (UIProductos.moneda.getCodigo() == 0) {
+                            stringReturn = "No se pudo encontrar la moneda";
+                        } else {
+                            productos.get(i).setPrecioVenta(Util.RedondearFloat(productos.get(i).getPrecioVenta() * UIProductos.moneda.getValor(), 2));
+                            stringReturn = "";
+                        }
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -123,25 +125,27 @@ public class MonedaControlador {
                 UIProductos.moneda = new Moneda();
                 try {
                     conn = (Connection) Conexion.GetConnection(a);
-                    String consultaSqlMoneda = "SELECT VALOR FROM moneda WHERE CODIGO=?";
-                    psMoneda = (PreparedStatement) conn.prepareStatement(consultaSqlMoneda);
-                    psMoneda.setFloat(1, productos.get(i).getMoneda());
-                    psMoneda.execute();
-                    rsmoneda = psMoneda.getResultSet();
-                    if (rsmoneda.next()) {
-                        UIProductos.moneda.setCodigo(productos.get(i).getIdProducto());
-                        UIProductos.moneda.setValor(rsmoneda.getFloat(1));
-                    } else {
-                        UIProductos.moneda.setCodigo(0);
-                    }
-                    rsmoneda.close();
-                    psMoneda.close();
-                    conn.close();
-                    if (UIProductos.moneda.getCodigo() == 0) {
-                        stringReturn = "No se pudo encontrar la moneda";
-                    } else {
-                        productos.get(i).setPrecioVenta(Util.RedondearFloat(productos.get(i).getPrecioVenta() * UIProductos.moneda.getValor(), 2));
-                        stringReturn = "";
+                    if (conn != null) {
+                        String consultaSqlMoneda = "SELECT VALOR FROM moneda WHERE CODIGO=?";
+                        psMoneda = (PreparedStatement) conn.prepareStatement(consultaSqlMoneda);
+                        psMoneda.setFloat(1, productos.get(i).getMoneda());
+                        psMoneda.execute();
+                        rsmoneda = psMoneda.getResultSet();
+                        if (rsmoneda.next()) {
+                            UIProductos.moneda.setCodigo(productos.get(i).getIdProducto());
+                            UIProductos.moneda.setValor(rsmoneda.getFloat(1));
+                        } else {
+                            UIProductos.moneda.setCodigo(0);
+                        }
+                        rsmoneda.close();
+                        psMoneda.close();
+                        conn.close();
+                        if (UIProductos.moneda.getCodigo() == 0) {
+                            stringReturn = "No se pudo encontrar la moneda";
+                        } else {
+                            productos.get(i).setPrecioVenta(Util.RedondearFloat(productos.get(i).getPrecioVenta() * UIProductos.moneda.getValor(), 2));
+                            stringReturn = "";
+                        }
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();

@@ -62,32 +62,37 @@ public class ConfigaccControlador {
             Connection conn;
             PreparedStatement ps;
             ResultSet rs;
+            String retorno = "No se pudo conectar a la dase de datos";
             try {
                 conn = (Connection) Conexion.GetConnection(a);
-                String consultaSql = "Select MENU,INDICE,ITEM, OPCIONES, ITEMID, HIJO \n" +
-                        "    From CONFIGACC " +
-                        "    WHERE TIPO = 'M' " +
-                        "    and menu='mnmantenimiento' " +
-                        "    and indice=8 " +
-                        "    and " + user + " ='S'" +
-                        "    Order by orden";
-                ps = (PreparedStatement) conn.prepareStatement(consultaSql);
-                ps.execute();
-                rs = ps.getResultSet();
-                if (rs.next()) {
-                    configacc = new Configacc();
-                    configacc.setMenu(rs.getString(1));
-                    configacc.setIndice(rs.getFloat(2));
-                    configacc.setItem(rs.getString(3));
-                    configacc.setOpciones(rs.getString(4));
-                    configacc.setItemid(rs.getString(5));
-                    configacc.setHijo(rs.getFloat(6));
-                    configaccs.add(configacc);
+                if (conn != null) {
+
+                    String consultaSql = "Select MENU,INDICE,ITEM, OPCIONES, ITEMID, HIJO \n" +
+                            "    From CONFIGACC " +
+                            "    WHERE TIPO = 'M' " +
+                            "    and menu='mnmantenimiento' " +
+                            "    and indice=8 " +
+                            "    and " + user + " ='S'" +
+                            "    Order by orden";
+                    ps = (PreparedStatement) conn.prepareStatement(consultaSql);
+                    ps.execute();
+                    rs = ps.getResultSet();
+                    if (rs.next()) {
+                        configacc = new Configacc();
+                        configacc.setMenu(rs.getString(1));
+                        configacc.setIndice(rs.getFloat(2));
+                        configacc.setItem(rs.getString(3));
+                        configacc.setOpciones(rs.getString(4));
+                        configacc.setItemid(rs.getString(5));
+                        configacc.setHijo(rs.getFloat(6));
+                        configaccs.add(configacc);
+                    }
+                    rs.close();
+                    ps.close();
+                    conn.close();
+                    retorno = "";
                 }
-                rs.close();
-                ps.close();
-                conn.close();
-                return "";
+                return retorno;
             } catch (SQLException e) {
                 e.printStackTrace();
                 return e.toString();
@@ -151,32 +156,36 @@ public class ConfigaccControlador {
             Connection conn;
             PreparedStatement ps;
             ResultSet rs;
+            String retorno = "No se pudo conectar a la dase de datos";
             try {
                 conn = (Connection) Conexion.GetConnection(a);
-                String consultaSql = "Select MENU,INDICE,ITEM, OPCIONES, ITEMID, HIJO \n" +
-                        "    From CONFIGACC " +
-                        "    WHERE TIPO = 'M' " +
-                        "    and menu='mnmantenimiento' " +
-                        "    and indice = 0 " +
-                        "    and " + user + " ='S'" +
-                        "    Order by orden";
-                ps = (PreparedStatement) conn.prepareStatement(consultaSql);
-                ps.execute();
-                rs = ps.getResultSet();
-                if (rs.next()) {
-                    configacc = new Configacc();
-                    configacc.setMenu(rs.getString(1));
-                    configacc.setIndice(rs.getFloat(2));
-                    configacc.setItem(rs.getString(3));
-                    configacc.setOpciones(rs.getString(4));
-                    configacc.setItemid(rs.getString(5));
-                    configacc.setHijo(rs.getFloat(6));
-                    configaccs.add(configacc);
+                if (conn != null) {
+                    String consultaSql = "Select MENU,INDICE,ITEM, OPCIONES, ITEMID, HIJO \n" +
+                            "    From CONFIGACC " +
+                            "    WHERE TIPO = 'M' " +
+                            "    and menu='mnmantenimiento' " +
+                            "    and indice = 0 " +
+                            "    and " + user + " ='S'" +
+                            "    Order by orden";
+                    ps = (PreparedStatement) conn.prepareStatement(consultaSql);
+                    ps.execute();
+                    rs = ps.getResultSet();
+                    if (rs.next()) {
+                        configacc = new Configacc();
+                        configacc.setMenu(rs.getString(1));
+                        configacc.setIndice(rs.getFloat(2));
+                        configacc.setItem(rs.getString(3));
+                        configacc.setOpciones(rs.getString(4));
+                        configacc.setItemid(rs.getString(5));
+                        configacc.setHijo(rs.getFloat(6));
+                        configaccs.add(configacc);
+                    }
+                    rs.close();
+                    ps.close();
+                    conn.close();
+                    retorno = "";
                 }
-                rs.close();
-                ps.close();
-                conn.close();
-                return "";
+                return retorno;
             } catch (SQLException e) {
                 e.printStackTrace();
                 return e.toString();
@@ -242,27 +251,31 @@ public class ConfigaccControlador {
             Connection conn;
             PreparedStatement ps;
             ResultSet rs;
+            String retorno = "No se pudo conectar a la dase de datos";
             try {
                 conn = (Connection) Conexion.GetConnection(a);
-                String consultaSql = "Select ITEM, OPCIONES, ITEMID, ITEMIDH From configacc" +
-                        "    WHERE TIPO = 'F'" +
-                        "    and ITEMID = 'FrmABMProductos'" +
-                        "    and " + user + " ='N'";
-                ps = (PreparedStatement) conn.prepareStatement(consultaSql);
-                ps.execute();
-                rs = ps.getResultSet();
-                while (rs.next()) {//SIEMPRE ES WHILE CUANDO SE ESPERA 2 O MAS REGISTROS (Y METERLOS EN UN ARRAYLIST)
-                    configacc = new Configacc();
-                    configacc.setItem(rs.getString(1));
-                    configacc.setOpciones(rs.getString(2));
-                    configacc.setItemid(rs.getString(3));
-                    configacc.setItemidh(rs.getString(4));
-                    UIProductos.configaccs.add(configacc);
+                if (conn != null) {
+                    String consultaSql = "Select ITEM, OPCIONES, ITEMID, ITEMIDH From configacc" +
+                            "    WHERE TIPO = 'F'" +
+                            "    and ITEMID = 'FrmABMProductos'" +
+                            "    and " + user + " ='N'";
+                    ps = (PreparedStatement) conn.prepareStatement(consultaSql);
+                    ps.execute();
+                    rs = ps.getResultSet();
+                    while (rs.next()) {//SIEMPRE ES WHILE CUANDO SE ESPERA 2 O MAS REGISTROS (Y METERLOS EN UN ARRAYLIST)
+                        configacc = new Configacc();
+                        configacc.setItem(rs.getString(1));
+                        configacc.setOpciones(rs.getString(2));
+                        configacc.setItemid(rs.getString(3));
+                        configacc.setItemidh(rs.getString(4));
+                        UIProductos.configaccs.add(configacc);
+                    }
+                    rs.close();
+                    ps.close();
+                    conn.close();
+                    retorno = "";
                 }
-                rs.close();
-                ps.close();
-                conn.close();
-                return "";
+                return retorno;
             } catch (SQLException e) {
                 e.printStackTrace();
                 return e.toString();

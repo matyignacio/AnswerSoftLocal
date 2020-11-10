@@ -45,28 +45,32 @@ public class ComprobantePDControlador {
             Connection conn;
             PreparedStatement ps;
             ResultSet rs;
+            String retorno = "No se pudo conectar a la dase de datos";
             comprobantesPD = new ArrayList<>();
             try {
                 conn = (Connection) Conexion.GetConnection(a);
-                String consultaSql = "SELECT DESCRIPPROD, CANT, SUBTOT, NROCOMP" +
-                        " FROM comprobantes_p_d" +
-                        " WHERE NROCOMP = ?";
-                ps = (PreparedStatement) conn.prepareStatement(consultaSql);
-                ps.setString(1, comprobante);
-                ps.executeQuery();
-                rs = ps.getResultSet();
-                while (rs.next()) {
-                    ComprobantePD comprobantePD = new ComprobantePD();
-                    comprobantePD.setDESCRIPPROD(rs.getString(1));
-                    comprobantePD.setCANT(rs.getFloat(2));
-                    comprobantePD.setSUBTOT(rs.getFloat(3));
-                    comprobantePD.setNROCOMP(rs.getString(4));
-                    comprobantesPD.add(comprobantePD);
+                if (conn != null) {
+                    String consultaSql = "SELECT DESCRIPPROD, CANT, SUBTOT, NROCOMP" +
+                            " FROM comprobantes_p_d" +
+                            " WHERE NROCOMP = ?";
+                    ps = (PreparedStatement) conn.prepareStatement(consultaSql);
+                    ps.setString(1, comprobante);
+                    ps.executeQuery();
+                    rs = ps.getResultSet();
+                    while (rs.next()) {
+                        ComprobantePD comprobantePD = new ComprobantePD();
+                        comprobantePD.setDESCRIPPROD(rs.getString(1));
+                        comprobantePD.setCANT(rs.getFloat(2));
+                        comprobantePD.setSUBTOT(rs.getFloat(3));
+                        comprobantePD.setNROCOMP(rs.getString(4));
+                        comprobantesPD.add(comprobantePD);
+                    }
+                    rs.close();
+                    ps.close();
+                    conn.close();
+                    retorno = "";
                 }
-                rs.close();
-                ps.close();
-                conn.close();
-                return "";
+                return retorno;
             } catch (SQLException e) {
                 e.printStackTrace();
                 return e.toString();

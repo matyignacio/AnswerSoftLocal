@@ -34,66 +34,70 @@ public class ComprobantePCControlador {
             Connection conn;
             PreparedStatement ps;
             ResultSet rs;
+            String retorno = "No se pudo conectar a la dase de datos";
             comprobantesXC = new ArrayList<>();
-            if (razonSocial.equals("")) {
-                try {
-                    conn = (Connection) Conexion.GetConnection(a);
-                    String consultaSql = "SELECT NROCOMP, CLIENTE, FECHA, TOTAL, VENDEDOR, idt" +
-                            " FROM comprobantes_p_c" +
-                            " ORDER BY idt DESC" +
-                            " LIMIT 10";
-                    ps = (PreparedStatement) conn.prepareStatement(consultaSql);
-                    ps.executeQuery();
-                    rs = ps.getResultSet();
-                    while (rs.next()) {
-                        ComprobantePC comprobantePC = new ComprobantePC();
-                        comprobantePC.setNROCOMP(rs.getString(1));
-                        comprobantePC.setCLIENTE(rs.getString(2));
-                        comprobantePC.setFECHA(rs.getString(3));
-                        comprobantePC.setTOTAL(rs.getFloat(4));
-                        comprobantePC.setVENDEDOR(rs.getString(5));
-                        comprobantePC.setId(rs.getInt(6));
-                        comprobantesXC.add(comprobantePC);
+            conn = (Connection) Conexion.GetConnection(a);
+            if (conn != null) {
+                if (razonSocial.equals("")) {
+                    try {
+                        String consultaSql = "SELECT NROCOMP, CLIENTE, FECHA, TOTAL, VENDEDOR, idt" +
+                                " FROM comprobantes_p_c" +
+                                " ORDER BY idt DESC" +
+                                " LIMIT 10";
+                        ps = (PreparedStatement) conn.prepareStatement(consultaSql);
+                        ps.executeQuery();
+                        rs = ps.getResultSet();
+                        while (rs.next()) {
+                            ComprobantePC comprobantePC = new ComprobantePC();
+                            comprobantePC.setNROCOMP(rs.getString(1));
+                            comprobantePC.setCLIENTE(rs.getString(2));
+                            comprobantePC.setFECHA(rs.getString(3));
+                            comprobantePC.setTOTAL(rs.getFloat(4));
+                            comprobantePC.setVENDEDOR(rs.getString(5));
+                            comprobantePC.setId(rs.getInt(6));
+                            comprobantesXC.add(comprobantePC);
+                        }
+                        rs.close();
+                        ps.close();
+                        conn.close();
+                        retorno = "";
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        return e.toString();
                     }
-                    rs.close();
-                    ps.close();
-                    conn.close();
-                    return "";
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    return e.toString();
-                }
-            } else {
-                try {
-                    conn = (Connection) Conexion.GetConnection(a);
-                    String consultaSql = "SELECT NROCOMP, CLIENTE, FECHA, TOTAL, VENDEDOR, idt" +
-                            " FROM comprobantes_p_c" +
-                            " WHERE CLIENTE LIKE ?" +
-                            " ORDER BY idt DESC" +
-                            " LIMIT 10";
-                    ps = (PreparedStatement) conn.prepareStatement(consultaSql);
-                    ps.setString(1, "%" + razonSocial + "%");
-                    ps.executeQuery();
-                    rs = ps.getResultSet();
-                    while (rs.next()) {
-                        ComprobantePC comprobantePC = new ComprobantePC();
-                        comprobantePC.setNROCOMP(rs.getString(1));
-                        comprobantePC.setCLIENTE(rs.getString(2));
-                        comprobantePC.setFECHA(rs.getString(3));
-                        comprobantePC.setTOTAL(rs.getFloat(4));
-                        comprobantePC.setVENDEDOR(rs.getString(5));
-                        comprobantePC.setId(rs.getInt(6));
-                        comprobantesXC.add(comprobantePC);
+                } else {
+                    try {
+                        conn = (Connection) Conexion.GetConnection(a);
+                        String consultaSql = "SELECT NROCOMP, CLIENTE, FECHA, TOTAL, VENDEDOR, idt" +
+                                " FROM comprobantes_p_c" +
+                                " WHERE CLIENTE LIKE ?" +
+                                " ORDER BY idt DESC" +
+                                " LIMIT 10";
+                        ps = (PreparedStatement) conn.prepareStatement(consultaSql);
+                        ps.setString(1, "%" + razonSocial + "%");
+                        ps.executeQuery();
+                        rs = ps.getResultSet();
+                        while (rs.next()) {
+                            ComprobantePC comprobantePC = new ComprobantePC();
+                            comprobantePC.setNROCOMP(rs.getString(1));
+                            comprobantePC.setCLIENTE(rs.getString(2));
+                            comprobantePC.setFECHA(rs.getString(3));
+                            comprobantePC.setTOTAL(rs.getFloat(4));
+                            comprobantePC.setVENDEDOR(rs.getString(5));
+                            comprobantePC.setId(rs.getInt(6));
+                            comprobantesXC.add(comprobantePC);
+                        }
+                        rs.close();
+                        ps.close();
+                        conn.close();
+                        retorno = "";
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        return e.toString();
                     }
-                    rs.close();
-                    ps.close();
-                    conn.close();
-                    return "";
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    return e.toString();
                 }
             }
+            return retorno;
         }
 
         @Override

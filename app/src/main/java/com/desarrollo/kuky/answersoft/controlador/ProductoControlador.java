@@ -82,6 +82,7 @@ public class ProductoControlador {
             ResultSet rs;
             PreparedStatement psMoneda;
             ResultSet rsmoneda;
+            String retorno = "No se pudo conectar a la dase de datos";
             int cantidadRegistros, i = 0, limit = 1000;
             try {
                 ////////////////////////////////////////////////////////////////////////////////////
@@ -94,27 +95,30 @@ public class ProductoControlador {
                 db.close();
                 ////////////////////////////////////////////////////////////////////////////////////
                 conn = (Connection) Conexion.GetConnection(a);
-                String consultaSql = "select p.IDPRODUCTO, p.DESCRIP, (p.PRECVENTA*m.VALOR), p.CODALTERN FROM producto_0 p, moneda m WHERE p.PRECIOS=m.CODIGO AND p.VER=1 ORDER BY p.DESCRIP LIMIT ?";
-                ps = (PreparedStatement) conn.prepareStatement(consultaSql);
-                ps.setInt(1, limit);
-                ps.executeQuery();
-                rs = ps.getResultSet();
-                cantidadRegistros = Util.obtenerCantidadRegistros(rs);
-                do {
-                    Producto p = new Producto();
-                    UIProductos.moneda = new Moneda();
-                    p.setIdProducto(rs.getInt(1));
-                    p.setDescripcion(rs.getString(2));
-                    p.setPrecioVenta(rs.getFloat(3));
-                    p.setCodAlternativo(rs.getString(4));
-                    productos.add(p);
-                    i++;
-                    publishProgress((float) (i * 100 / cantidadRegistros));
-                } while (rs.next());
-                rs.close();
-                ps.close();
-                conn.close();
-                return "";
+                if (conn != null) {
+                    String consultaSql = "select p.IDPRODUCTO, p.DESCRIP, (p.PRECVENTA*m.VALOR), p.CODALTERN FROM producto_0 p, moneda m WHERE p.PRECIOS=m.CODIGO AND p.VER=1 ORDER BY p.DESCRIP LIMIT ?";
+                    ps = (PreparedStatement) conn.prepareStatement(consultaSql);
+                    ps.setInt(1, limit);
+                    ps.executeQuery();
+                    rs = ps.getResultSet();
+                    cantidadRegistros = Util.obtenerCantidadRegistros(rs);
+                    do {
+                        Producto p = new Producto();
+                        UIProductos.moneda = new Moneda();
+                        p.setIdProducto(rs.getInt(1));
+                        p.setDescripcion(rs.getString(2));
+                        p.setPrecioVenta(rs.getFloat(3));
+                        p.setCodAlternativo(rs.getString(4));
+                        productos.add(p);
+                        i++;
+                        publishProgress((float) (i * 100 / cantidadRegistros));
+                    } while (rs.next());
+                    rs.close();
+                    ps.close();
+                    conn.close();
+                    retorno = "";
+                }
+                return retorno;
             } catch (SQLException e) {
                 e.printStackTrace();
                 return e.toString();
@@ -174,20 +178,24 @@ public class ProductoControlador {
             Connection conn;
             PreparedStatement ps;
             ResultSet rs;
+            String retorno = "No se pudo conectar a la dase de datos";
             try {
                 conn = (Connection) Conexion.GetConnection(a);
-                String consultaSql = "SELECT STOCK FROM producto_0 WHERE IDPRODUCTO=?";
-                ps = (PreparedStatement) conn.prepareStatement(consultaSql);
-                ps.setInt(1, p.getIdProducto());
-                ps.executeQuery();
-                rs = ps.getResultSet();
-                while (rs.next()) {
-                    p.setStock(rs.getFloat(1));
+                if (conn != null) {
+                    String consultaSql = "SELECT STOCK FROM producto_0 WHERE IDPRODUCTO=?";
+                    ps = (PreparedStatement) conn.prepareStatement(consultaSql);
+                    ps.setInt(1, p.getIdProducto());
+                    ps.executeQuery();
+                    rs = ps.getResultSet();
+                    while (rs.next()) {
+                        p.setStock(rs.getFloat(1));
+                    }
+                    rs.close();
+                    ps.close();
+                    conn.close();
+                    retorno = "";
                 }
-                rs.close();
-                ps.close();
-                conn.close();
-                return "";
+                return retorno;
             } catch (SQLException e) {
                 e.printStackTrace();
                 return "Error de conexion";
@@ -236,38 +244,42 @@ public class ProductoControlador {
             Connection conn;
             PreparedStatement ps;
             ResultSet rs;
+            String retorno = "No se pudo conectar a la dase de datos";
             try {
                 conn = (Connection) Conexion.GetConnection(a);
-                if (codLista.equals("0000")) {
-                    String consultaSql = "SELECT STOCK,DESCRIP,PRECVENTA,CODALTERN FROM producto_0 WHERE IDPRODUCTO=?";
-                    ps = (PreparedStatement) conn.prepareStatement(consultaSql);
-                    ps.setInt(1, producto.getIdProducto());
-                    ps.executeQuery();
-                    rs = ps.getResultSet();
-                    while (rs.next()) {
-                        producto.setStock(rs.getFloat(1));
-                        producto.setDescripcion(rs.getString(2));
-                        producto.setPrecioVenta(rs.getFloat(3));
-                        producto.setCodAlternativo(rs.getString(4));
+                if (conn != null) {
+                    if (codLista.equals("0000")) {
+                        String consultaSql = "SELECT STOCK,DESCRIP,PRECVENTA,CODALTERN FROM producto_0 WHERE IDPRODUCTO=?";
+                        ps = (PreparedStatement) conn.prepareStatement(consultaSql);
+                        ps.setInt(1, producto.getIdProducto());
+                        ps.executeQuery();
+                        rs = ps.getResultSet();
+                        while (rs.next()) {
+                            producto.setStock(rs.getFloat(1));
+                            producto.setDescripcion(rs.getString(2));
+                            producto.setPrecioVenta(rs.getFloat(3));
+                            producto.setCodAlternativo(rs.getString(4));
+                        }
+                    } else {
+                        String listaCodigo = "LIST_" + codLista;
+                        String consultaSql = "SELECT STOCK,DESCRIP," + listaCodigo + ",CODALTERN FROM producto_0 WHERE IDPRODUCTO=?";
+                        ps = (PreparedStatement) conn.prepareStatement(consultaSql);
+                        ps.setInt(1, producto.getIdProducto());
+                        ps.executeQuery();
+                        rs = ps.getResultSet();
+                        while (rs.next()) {
+                            producto.setStock(rs.getFloat(1));
+                            producto.setDescripcion(rs.getString(2));
+                            producto.setPrecioVenta(rs.getFloat(3));
+                            producto.setCodAlternativo(rs.getString(4));
+                        }
                     }
-                } else {
-                    String listaCodigo = "LIST_" + codLista;
-                    String consultaSql = "SELECT STOCK,DESCRIP," + listaCodigo + ",CODALTERN FROM producto_0 WHERE IDPRODUCTO=?";
-                    ps = (PreparedStatement) conn.prepareStatement(consultaSql);
-                    ps.setInt(1, producto.getIdProducto());
-                    ps.executeQuery();
-                    rs = ps.getResultSet();
-                    while (rs.next()) {
-                        producto.setStock(rs.getFloat(1));
-                        producto.setDescripcion(rs.getString(2));
-                        producto.setPrecioVenta(rs.getFloat(3));
-                        producto.setCodAlternativo(rs.getString(4));
-                    }
+                    rs.close();
+                    ps.close();
+                    conn.close();
+                    retorno = "";
                 }
-                rs.close();
-                ps.close();
-                conn.close();
-                return "";
+                return retorno;
             } catch (SQLException e) {
                 e.printStackTrace();
                 return "Error de conexion";
@@ -314,21 +326,25 @@ public class ProductoControlador {
             Connection conn;
             PreparedStatement ps;
             ResultSet rs;
+            String retorno = "No se pudo conectar a la dase de datos";
             producto = new Producto();
             try {
                 conn = (Connection) Conexion.GetConnection(a);
-                String consultaSql = "select IDPRODUCTO from producto_0 where CODALTERN like ?";
-                ps = (PreparedStatement) conn.prepareStatement(consultaSql);
-                ps.setString(1, codAltern);
-                ps.executeQuery();
-                rs = ps.getResultSet();
-                while (rs.next()) {
-                    producto.setIdProducto(rs.getInt(1));
+                if (conn != null) {
+                    String consultaSql = "select IDPRODUCTO from producto_0 where CODALTERN like ?";
+                    ps = (PreparedStatement) conn.prepareStatement(consultaSql);
+                    ps.setString(1, codAltern);
+                    ps.executeQuery();
+                    rs = ps.getResultSet();
+                    while (rs.next()) {
+                        producto.setIdProducto(rs.getInt(1));
+                    }
+                    rs.close();
+                    ps.close();
+                    conn.close();
+                    retorno = "";
                 }
-                rs.close();
-                ps.close();
-                conn.close();
-                return "";
+                return retorno;
             } catch (SQLException e) {
                 e.printStackTrace();
                 return "Error de conexion";
@@ -368,29 +384,32 @@ public class ProductoControlador {
             Connection conn;
             PreparedStatement ps;
             ResultSet rs;
+            regreso = "No se pudo conectar a la dase de datos";
             try {
                 conn = (Connection) Conexion.GetConnection(a);
-                String consultaSql = "SELECT p.IDPRODUCTO, p.DESCRIP, (p.PRECVENTA*m.VALOR), p.STOCK FROM producto_0 p, moneda m WHERE p.PRECIOS=m.CODIGO AND CODALTERN like ? ";
-                ps = (PreparedStatement) conn.prepareStatement(consultaSql);
-                ps.setString(1, "%" + codBarra + "%");
-                ps.executeQuery();
-                rs = ps.getResultSet();
-                int cantidadRegistros = Util.obtenerCantidadRegistros(rs);
-                if (cantidadRegistros > 0) {
-                    do {
-                        p = new Producto();
-                        p.setIdProducto(rs.getInt(1));
-                        p.setDescripcion(rs.getString(2));
-                        p.setPrecioVenta(rs.getFloat(3));
-                        p.setStock(rs.getFloat(4));
-                        p.setCodAlternativo(codBarra);
-                    } while (rs.next());
-                    rs.close();
-                    ps.close();
-                    conn.close();
-                    regreso = "";
-                } else {
-                    regreso = "No se encontro ningun producto con ese codigo";
+                if (conn != null) {
+                    String consultaSql = "SELECT p.IDPRODUCTO, p.DESCRIP, (p.PRECVENTA*m.VALOR), p.STOCK FROM producto_0 p, moneda m WHERE p.PRECIOS=m.CODIGO AND CODALTERN like ? ";
+                    ps = (PreparedStatement) conn.prepareStatement(consultaSql);
+                    ps.setString(1, "%" + codBarra + "%");
+                    ps.executeQuery();
+                    rs = ps.getResultSet();
+                    int cantidadRegistros = Util.obtenerCantidadRegistros(rs);
+                    if (cantidadRegistros > 0) {
+                        do {
+                            p = new Producto();
+                            p.setIdProducto(rs.getInt(1));
+                            p.setDescripcion(rs.getString(2));
+                            p.setPrecioVenta(rs.getFloat(3));
+                            p.setStock(rs.getFloat(4));
+                            p.setCodAlternativo(codBarra);
+                        } while (rs.next());
+                        rs.close();
+                        ps.close();
+                        conn.close();
+                        regreso = "";
+                    } else {
+                        regreso = "No se encontro ningun producto con ese codigo";
+                    }
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -437,22 +456,26 @@ public class ProductoControlador {
         protected String doInBackground(String... strings) {
             Connection conn;
             PreparedStatement ps;
+            String retorno = "No se pudo conectar a la dase de datos";
             try {
                 conn = (Connection) Conexion.GetConnection(a);
-                Log.d("Conectado", "se conecto con exito");
-                String consultaSql = "UPDATE producto_0 p " +
-                        "LEFT JOIN moneda m ON p.PRECIOS = m.CODIGO " +
-                        "SET p.STOCK=?, p.CODALTERN=?,p.PRECVENTA = FORMAT(? / m.VALOR ,4) " +
-                        "WHERE IDPRODUCTO=?";
-                ps = (PreparedStatement) conn.prepareStatement(consultaSql);
-                ps.setFloat(1, p.getStock());
-                ps.setString(2, p.getCodAlternativo());
-                ps.setFloat(3, p.getPrecioVenta());
-                ps.setInt(4, p.getIdProducto());
-                ps.executeUpdate();
-                ps.close();
-                conn.close();
-                return "Se actualizo el producto correctamente";
+                if (conn != null) {
+                    Log.d("Conectado", "se conecto con exito");
+                    String consultaSql = "UPDATE producto_0 p " +
+                            "LEFT JOIN moneda m ON p.PRECIOS = m.CODIGO " +
+                            "SET p.STOCK=?, p.CODALTERN=?,p.PRECVENTA = FORMAT(? / m.VALOR ,4) " +
+                            "WHERE IDPRODUCTO=?";
+                    ps = (PreparedStatement) conn.prepareStatement(consultaSql);
+                    ps.setFloat(1, p.getStock());
+                    ps.setString(2, p.getCodAlternativo());
+                    ps.setFloat(3, p.getPrecioVenta());
+                    ps.setInt(4, p.getIdProducto());
+                    ps.executeUpdate();
+                    ps.close();
+                    conn.close();
+                    retorno = "Se actualizo el producto correctamente";
+                }
+                return retorno;
             } catch (SQLException e) {
                 e.printStackTrace();
                 return "Hubo un error en la actualizacion de producto";
@@ -489,8 +512,7 @@ public class ProductoControlador {
             Connection conn;
             PreparedStatement ps;
             ResultSet rs;
-            PreparedStatement psMoneda;
-            ResultSet rsmoneda;
+            String retorno = "No se pudo conectar a la dase de datos";
             int limit = 10000;
             productos = new ArrayList<>();
             ////////////////////////////////////////////////////////////////////////////////////
@@ -505,24 +527,27 @@ public class ProductoControlador {
             if (descripcion.equals("")) {
                 try {
                     conn = (Connection) Conexion.GetConnection(a);
-                    String consultaSql = "select p.IDPRODUCTO, p.DESCRIP, (p.PRECVENTA*m.VALOR), p.CODALTERN FROM producto_0 p, moneda m WHERE p.PRECIOS=m.CODIGO AND p.VER=1 ORDER BY p.DESCRIP LIMIT ?";
-                    ps = (PreparedStatement) conn.prepareStatement(consultaSql);
-                    ps.setInt(1, limit);
-                    ps.executeQuery();
-                    rs = ps.getResultSet();
-                    while (rs.next()) {
-                        Producto p = new Producto();
-                        UIProductos.moneda = new Moneda();
-                        p.setIdProducto(rs.getInt(1));
-                        p.setDescripcion(rs.getString(2));
-                        p.setPrecioVenta(rs.getFloat(3));
-                        p.setCodAlternativo(rs.getString(4));
-                        productos.add(p);
+                    if (conn != null) {
+                        String consultaSql = "select p.IDPRODUCTO, p.DESCRIP, (p.PRECVENTA*m.VALOR), p.CODALTERN FROM producto_0 p, moneda m WHERE p.PRECIOS=m.CODIGO AND p.VER=1 ORDER BY p.DESCRIP LIMIT ?";
+                        ps = (PreparedStatement) conn.prepareStatement(consultaSql);
+                        ps.setInt(1, limit);
+                        ps.executeQuery();
+                        rs = ps.getResultSet();
+                        while (rs.next()) {
+                            Producto p = new Producto();
+                            UIProductos.moneda = new Moneda();
+                            p.setIdProducto(rs.getInt(1));
+                            p.setDescripcion(rs.getString(2));
+                            p.setPrecioVenta(rs.getFloat(3));
+                            p.setCodAlternativo(rs.getString(4));
+                            productos.add(p);
+                        }
+                        rs.close();
+                        ps.close();
+                        conn.close();
+                        retorno = "";
                     }
-                    rs.close();
-                    ps.close();
-                    conn.close();
-                    return "";
+                    return retorno;
                 } catch (SQLException e) {
                     e.printStackTrace();
                     return e.toString();
@@ -530,25 +555,28 @@ public class ProductoControlador {
             } else {
                 try {
                     conn = (Connection) Conexion.GetConnection(a);
-                    String consultaSql = "select p.IDPRODUCTO, p.DESCRIP, (p.PRECVENTA*m.VALOR), p.CODALTERN FROM producto_0 p, moneda m WHERE p.PRECIOS=m.CODIGO AND p.VER=1 AND p.DESCRIP like ? ORDER BY p.DESCRIP LIMIT ?";
-                    ps = (PreparedStatement) conn.prepareStatement(consultaSql);
-                    ps.setString(1, "%" + descripcion + "%");
-                    ps.setInt(2, limit);
-                    ps.executeQuery();
-                    rs = ps.getResultSet();
-                    while (rs.next()) {
-                        Producto p = new Producto();
-                        UIProductos.moneda = new Moneda();
-                        p.setIdProducto(rs.getInt(1));
-                        p.setDescripcion(rs.getString(2));
-                        p.setPrecioVenta(rs.getFloat(3));
-                        p.setCodAlternativo(rs.getString(4));
-                        productos.add(p);
+                    if (conn != null) {
+                        String consultaSql = "select p.IDPRODUCTO, p.DESCRIP, (p.PRECVENTA*m.VALOR), p.CODALTERN FROM producto_0 p, moneda m WHERE p.PRECIOS=m.CODIGO AND p.VER=1 AND p.DESCRIP like ? ORDER BY p.DESCRIP LIMIT ?";
+                        ps = (PreparedStatement) conn.prepareStatement(consultaSql);
+                        ps.setString(1, "%" + descripcion + "%");
+                        ps.setInt(2, limit);
+                        ps.executeQuery();
+                        rs = ps.getResultSet();
+                        while (rs.next()) {
+                            Producto p = new Producto();
+                            UIProductos.moneda = new Moneda();
+                            p.setIdProducto(rs.getInt(1));
+                            p.setDescripcion(rs.getString(2));
+                            p.setPrecioVenta(rs.getFloat(3));
+                            p.setCodAlternativo(rs.getString(4));
+                            productos.add(p);
+                        }
+                        rs.close();
+                        ps.close();
+                        conn.close();
+                        retorno = "";
                     }
-                    rs.close();
-                    ps.close();
-                    conn.close();
-                    return "";
+                    return retorno;
                 } catch (SQLException e) {
                     e.printStackTrace();
                     return e.toString();
@@ -589,8 +617,7 @@ public class ProductoControlador {
             Connection conn;
             PreparedStatement ps;
             ResultSet rs;
-            PreparedStatement psMoneda;
-            ResultSet rsmoneda;
+            String retorno = "No se pudo conectar a la dase de datos";
             int limit = 10000;
             productos = new ArrayList<>();
             ////////////////////////////////////////////////////////////////////////////////////
@@ -605,24 +632,27 @@ public class ProductoControlador {
             if (descripcion.equals("")) {
                 try {
                     conn = (Connection) Conexion.GetConnection(a);
-                    String consultaSql = "select p.IDPRODUCTO, p.DESCRIP, (p.PRECVENTA*m.VALOR), p.CODALTERN FROM producto_0 p, moneda m WHERE p.PRECIOS=m.CODIGO AND p.VER=1 ORDER BY p.DESCRIP LIMIT ?";
-                    ps = (PreparedStatement) conn.prepareStatement(consultaSql);
-                    ps.setInt(1, limit);
-                    ps.executeQuery();
-                    rs = ps.getResultSet();
-                    while (rs.next()) {
-                        Producto p = new Producto();
-                        UIProductos.moneda = new Moneda();
-                        p.setIdProducto(rs.getInt(1));
-                        p.setDescripcion(rs.getString(2));
-                        p.setPrecioVenta(rs.getFloat(3));
-                        p.setCodAlternativo(rs.getString(4));
-                        productos.add(p);
+                    if (conn != null) {
+                        String consultaSql = "select p.IDPRODUCTO, p.DESCRIP, (p.PRECVENTA*m.VALOR), p.CODALTERN FROM producto_0 p, moneda m WHERE p.PRECIOS=m.CODIGO AND p.VER=1 ORDER BY p.DESCRIP LIMIT ?";
+                        ps = (PreparedStatement) conn.prepareStatement(consultaSql);
+                        ps.setInt(1, limit);
+                        ps.executeQuery();
+                        rs = ps.getResultSet();
+                        while (rs.next()) {
+                            Producto p = new Producto();
+                            UIProductos.moneda = new Moneda();
+                            p.setIdProducto(rs.getInt(1));
+                            p.setDescripcion(rs.getString(2));
+                            p.setPrecioVenta(rs.getFloat(3));
+                            p.setCodAlternativo(rs.getString(4));
+                            productos.add(p);
+                        }
+                        rs.close();
+                        ps.close();
+                        conn.close();
+                        retorno = "";
                     }
-                    rs.close();
-                    ps.close();
-                    conn.close();
-                    return "";
+                    return retorno;
                 } catch (SQLException e) {
                     e.printStackTrace();
                     return e.toString();
@@ -630,25 +660,29 @@ public class ProductoControlador {
             } else {
                 try {
                     conn = (Connection) Conexion.GetConnection(a);
-                    String consultaSql = "select p.IDPRODUCTO, p.DESCRIP, (p.PRECVENTA*m.VALOR), p.CODALTERN FROM producto_0 p, moneda m WHERE p.PRECIOS=m.CODIGO AND p.VER=1 AND p.DESCRIP like ? ORDER BY p.DESCRIP LIMIT ?";
-                    ps = (PreparedStatement) conn.prepareStatement(consultaSql);
-                    ps.setString(1, "%" + descripcion + "%");
-                    ps.setInt(2, limit);
-                    ps.executeQuery();
-                    rs = ps.getResultSet();
-                    while (rs.next()) {
-                        Producto p = new Producto();
-                        UIProductos.moneda = new Moneda();
-                        p.setIdProducto(rs.getInt(1));
-                        p.setDescripcion(rs.getString(2));
-                        p.setPrecioVenta(rs.getFloat(3));
-                        p.setCodAlternativo(rs.getString(4));
-                        productos.add(p);
+                    if (conn != null) {
+
+                        String consultaSql = "select p.IDPRODUCTO, p.DESCRIP, (p.PRECVENTA*m.VALOR), p.CODALTERN FROM producto_0 p, moneda m WHERE p.PRECIOS=m.CODIGO AND p.VER=1 AND p.DESCRIP like ? ORDER BY p.DESCRIP LIMIT ?";
+                        ps = (PreparedStatement) conn.prepareStatement(consultaSql);
+                        ps.setString(1, "%" + descripcion + "%");
+                        ps.setInt(2, limit);
+                        ps.executeQuery();
+                        rs = ps.getResultSet();
+                        while (rs.next()) {
+                            Producto p = new Producto();
+                            UIProductos.moneda = new Moneda();
+                            p.setIdProducto(rs.getInt(1));
+                            p.setDescripcion(rs.getString(2));
+                            p.setPrecioVenta(rs.getFloat(3));
+                            p.setCodAlternativo(rs.getString(4));
+                            productos.add(p);
+                        }
+                        rs.close();
+                        ps.close();
+                        conn.close();
+                        retorno = "";
                     }
-                    rs.close();
-                    ps.close();
-                    conn.close();
-                    return "";
+                    return retorno;
                 } catch (SQLException e) {
                     e.printStackTrace();
                     return e.toString();

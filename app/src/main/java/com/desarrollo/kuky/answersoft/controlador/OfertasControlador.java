@@ -46,23 +46,27 @@ public class OfertasControlador {
         protected String doInBackground(String... strings) {
             Connection conn;
             PreparedStatement ps;
+            String retorno = "No se pudo conectar a la dase de datos";
             try {
                 conn = (Connection) Conexion.GetConnection(a);
-                Log.d("Conectado", "se conecto con exito");
-                String consultaSql = "DELETE FROM ofertas WHERE IDPRODUCTO=?";
-                ps = (PreparedStatement) conn.prepareStatement(consultaSql);
-                ps.setString(1, Util.RellenarConCeros(6, String.valueOf(p.getIdProducto())));
-                ps.execute();
-                consultaSql = "INSERT INTO  ofertas (IDPRODUCTO, DESCRIP, BARRA, PRECIO) VALUES (?,?,?,?)";
-                ps = (PreparedStatement) conn.prepareStatement(consultaSql);
-                ps.setString(1, Util.RellenarConCeros(6, String.valueOf(p.getIdProducto())));
-                ps.setString(2, p.getDescripcion());
-                ps.setString(3, p.getCodAlternativo());
-                ps.setFloat(4, p.getPrecioVenta());
-                ps.executeUpdate();
-                ps.close();
-                conn.close();
-                return "Se inserto correctamente";
+                if (conn != null) {
+                    Log.d("Conectado", "se conecto con exito");
+                    String consultaSql = "DELETE FROM ofertas WHERE IDPRODUCTO=?";
+                    ps = (PreparedStatement) conn.prepareStatement(consultaSql);
+                    ps.setString(1, Util.RellenarConCeros(6, String.valueOf(p.getIdProducto())));
+                    ps.execute();
+                    consultaSql = "INSERT INTO  ofertas (IDPRODUCTO, DESCRIP, BARRA, PRECIO) VALUES (?,?,?,?)";
+                    ps = (PreparedStatement) conn.prepareStatement(consultaSql);
+                    ps.setString(1, Util.RellenarConCeros(6, String.valueOf(p.getIdProducto())));
+                    ps.setString(2, p.getDescripcion());
+                    ps.setString(3, p.getCodAlternativo());
+                    ps.setFloat(4, p.getPrecioVenta());
+                    ps.executeUpdate();
+                    ps.close();
+                    conn.close();
+                    retorno = "Se inserto correctamente";
+                }
+                return retorno;
             } catch (SQLException e) {
                 e.printStackTrace();
                 return "Hubo un error al insertar etiqueta";

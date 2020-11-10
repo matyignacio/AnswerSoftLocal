@@ -65,6 +65,7 @@ public class ClienteControlador {
             Connection conn;
             PreparedStatement ps;
             ResultSet rs;
+            String retorno = "No se pudo conectar a la dase de datos";
             int cantidadRegistros, i = 0, limit = 10000;
             try {
                 ////////////////////////////////////////////////////////////////////////////////////
@@ -77,25 +78,28 @@ public class ClienteControlador {
                 db.close();
                 ////////////////////////////////////////////////////////////////////////////////////
                 conn = (Connection) Conexion.GetConnection(a);
-                String consultaSql = "SELECT IDCLIENTE,RAZONSOC,DOMICILIO FROM clientes WHERE VER=1 ORDER BY RAZONSOC LIMIT ?";
-                ps = (PreparedStatement) conn.prepareStatement(consultaSql);
-                ps.setInt(1, limit);
-                ps.executeQuery();
-                rs = ps.getResultSet();
-                cantidadRegistros = Util.obtenerCantidadRegistros(rs);
-                do {
-                    Cliente cliente = new Cliente();
-                    cliente.setRazonSocial(rs.getString(2));
-                    cliente.setIdCliente(rs.getInt(1));
-                    cliente.setDomicilio(rs.getString(3));
-                    clientes.add(cliente);
-                    i++;
-                    publishProgress((float) (i * 100 / cantidadRegistros));
-                } while (rs.next());
-                rs.close();
-                ps.close();
-                conn.close();
-                return "";
+                if (conn != null) {
+                    String consultaSql = "SELECT IDCLIENTE,RAZONSOC,DOMICILIO FROM clientes WHERE VER=1 ORDER BY RAZONSOC LIMIT ?";
+                    ps = (PreparedStatement) conn.prepareStatement(consultaSql);
+                    ps.setInt(1, limit);
+                    ps.executeQuery();
+                    rs = ps.getResultSet();
+                    cantidadRegistros = Util.obtenerCantidadRegistros(rs);
+                    do {
+                        Cliente cliente = new Cliente();
+                        cliente.setRazonSocial(rs.getString(2));
+                        cliente.setIdCliente(rs.getInt(1));
+                        cliente.setDomicilio(rs.getString(3));
+                        clientes.add(cliente);
+                        i++;
+                        publishProgress((float) (i * 100 / cantidadRegistros));
+                    } while (rs.next());
+                    rs.close();
+                    ps.close();
+                    conn.close();
+                    retorno = "";
+                }
+                return retorno;
             } catch (SQLException e) {
                 e.printStackTrace();
                 return e.toString();
@@ -154,23 +158,27 @@ public class ClienteControlador {
             Connection conn;
             PreparedStatement ps;
             ResultSet rs;
+            String retorno = "No se pudo conectar a la dase de datos";
             try {
                 conn = (Connection) Conexion.GetConnection(a);
-                String consultaSql = "SELECT TELEFONO, TIPORESP, NROCUIT, CODLISTA FROM clientes WHERE IDCLIENTE=?";
-                ps = (PreparedStatement) conn.prepareStatement(consultaSql);
-                ps.setInt(1, c.getIdCliente());
-                ps.executeQuery();
-                rs = ps.getResultSet();
-                while (rs.next()) {
-                    c.setTelefono(rs.getString(1));
-                    c.setTipoResponsabilidad(rs.getString(2));
-                    c.setNumeroCuit(rs.getString(3));
-                    c.setCodLista(rs.getString(4));
+                if (conn != null) {
+                    String consultaSql = "SELECT TELEFONO, TIPORESP, NROCUIT, CODLISTA FROM clientes WHERE IDCLIENTE=?";
+                    ps = (PreparedStatement) conn.prepareStatement(consultaSql);
+                    ps.setInt(1, c.getIdCliente());
+                    ps.executeQuery();
+                    rs = ps.getResultSet();
+                    while (rs.next()) {
+                        c.setTelefono(rs.getString(1));
+                        c.setTipoResponsabilidad(rs.getString(2));
+                        c.setNumeroCuit(rs.getString(3));
+                        c.setCodLista(rs.getString(4));
+                    }
+                    rs.close();
+                    ps.close();
+                    conn.close();
+                    retorno = "";
                 }
-                rs.close();
-                ps.close();
-                conn.close();
-                return "";
+                return retorno;
             } catch (SQLException e) {
                 e.printStackTrace();
                 return "Error de conexion";
@@ -209,10 +217,10 @@ public class ClienteControlador {
             Connection conn;
             PreparedStatement ps;
             ResultSet rs;
+            String retorno = "No se pudo conectar a la dase de datos";
             int limit = 10000;
             clientes = new ArrayList<>();
             try {
-
                 SQLiteDatabase db = BaseHelper.getInstance(a).getReadableDatabase();
                 Cursor c = db.rawQuery("SELECT limite_clientes FROM parametros", null);
                 if (c.moveToFirst()) {
@@ -227,22 +235,25 @@ public class ClienteControlador {
             if (razonSocial.equals("")) {
                 try {
                     conn = (Connection) Conexion.GetConnection(a);
-                    String consultaSql = "SELECT IDCLIENTE,RAZONSOC,DOMICILIO FROM clientes WHERE VER=1 ORDER BY RAZONSOC LIMIT ?";
-                    ps = (PreparedStatement) conn.prepareStatement(consultaSql);
-                    ps.setInt(1, limit);
-                    ps.executeQuery();
-                    rs = ps.getResultSet();
-                    while (rs.next()) {
-                        Cliente c = new Cliente();
-                        c.setIdCliente(rs.getInt(1));
-                        c.setRazonSocial(rs.getString(2));
-                        c.setDomicilio(rs.getString(3));
-                        clientes.add(c);
+                    if (conn != null) {
+                        String consultaSql = "SELECT IDCLIENTE,RAZONSOC,DOMICILIO FROM clientes WHERE VER=1 ORDER BY RAZONSOC LIMIT ?";
+                        ps = (PreparedStatement) conn.prepareStatement(consultaSql);
+                        ps.setInt(1, limit);
+                        ps.executeQuery();
+                        rs = ps.getResultSet();
+                        while (rs.next()) {
+                            Cliente c = new Cliente();
+                            c.setIdCliente(rs.getInt(1));
+                            c.setRazonSocial(rs.getString(2));
+                            c.setDomicilio(rs.getString(3));
+                            clientes.add(c);
+                        }
+                        rs.close();
+                        ps.close();
+                        conn.close();
+                        retorno = "";
                     }
-                    rs.close();
-                    ps.close();
-                    conn.close();
-                    return "";
+                    return retorno;
                 } catch (SQLException e) {
                     e.printStackTrace();
                     return e.toString();
