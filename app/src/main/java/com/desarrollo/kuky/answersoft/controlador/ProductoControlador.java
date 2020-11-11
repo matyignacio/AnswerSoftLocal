@@ -224,15 +224,6 @@ public class ProductoControlador {
         Producto p;
         String codLista;
 
-        @Override
-        protected void onPreExecute() {
-            pDialog = new ProgressDialog(a);
-            pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            pDialog.setMessage("Estableciendo conexion...");
-            pDialog.setCancelable(false);
-            pDialog.show();
-        }
-
         public Extraer(Activity a, Producto p, String codLista) {
             this.a = a;
             this.p = p;
@@ -288,7 +279,6 @@ public class ProductoControlador {
 
         @Override
         protected void onPostExecute(String s) {
-            pDialog.dismiss();
             if (s.equals("")) {
                 cargarVistas(a);
             } else {
