@@ -34,6 +34,7 @@ import java.util.concurrent.Callable;
 
 public class Util {
     Context context;
+    public static final int DELAY = 2000;
     public static final int ERROR = 0;
     public static final int EXITOSO = 1;
     public static String PRODUCTO_SIN_CODIGO = "-";

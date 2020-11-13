@@ -1,6 +1,8 @@
 package com.desarrollo.kuky.answersoft.ui;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,6 +16,7 @@ import com.desarrollo.kuky.answersoft.controlador.ProductoControlador;
 import com.desarrollo.kuky.answersoft.objetos.Producto;
 
 import static com.desarrollo.kuky.answersoft.ui.UIPresupuesto.producto;
+import static com.desarrollo.kuky.answersoft.util.Util.DELAY;
 
 public class UIListaProductos extends AppCompatActivity {
     private ListView listaProductos;
@@ -30,8 +33,11 @@ public class UIListaProductos extends AppCompatActivity {
         listaProductos.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         ////////////////////////////////////////////////////////////////
         producto = new Producto();
-        cargarProductos();
+        cargarProductos("");
         buscarProducto.addTextChangedListener(new TextWatcher() {
+            Handler handler = new Handler(Looper.getMainLooper() /*UI thread*/);
+            Runnable workRunnable;
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -41,8 +47,15 @@ public class UIListaProductos extends AppCompatActivity {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-                cargarProductos();
+            public void afterTextChanged(final Editable s) {
+                handler.removeCallbacks(workRunnable);
+                workRunnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        cargarProductos(s.toString());
+                    }
+                };
+                handler.postDelayed(workRunnable, DELAY /*delay*/);
             }
         });
     }
@@ -53,9 +66,9 @@ public class UIListaProductos extends AppCompatActivity {
         this.finish();
     }
 
-    public void cargarProductos() {
+    public void cargarProductos(String descripcion) {
         final ProductoControlador productoControlador = new ProductoControlador();
-        productoControlador.buscarPorDescripcionPresupuesto(UIListaProductos.this, listaProductos, buscarProducto.getText().toString());
+        productoControlador.buscarPorDescripcionPresupuesto(UIListaProductos.this, listaProductos, descripcion);
         listaProductos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

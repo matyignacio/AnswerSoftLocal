@@ -102,19 +102,10 @@ public class UIProductos extends AppCompatActivity
         searchView.setQueryHint(getText(R.string.action_search));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                /*Toast.makeText(UIClientes.this, "Submmited", Toast.LENGTH_SHORT).show();
-                //se oculta el EditText
-                searchView.setQuery("", false);
-                searchView.setIconified(true);*/
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                busqueda = newText;
+            public boolean onQueryTextSubmit(final String query) {
+                busqueda = query;
                 final ProductoControlador productoControlador = new ProductoControlador();
-                productoControlador.buscarPorDescripcion(UIProductos.this, listaProductos, newText);
+                productoControlador.buscarPorDescripcion(UIProductos.this, listaProductos, query);
                 listaProductos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -123,6 +114,31 @@ public class UIProductos extends AppCompatActivity
                         // UIProductoSeleccionado
                     }
                 });
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(final String newText) {
+//                Handler handler = new Handler(Looper.getMainLooper() /*UI thread*/);
+//                Runnable workRunnable = null;
+//                handler.removeCallbacks(workRunnable);
+//                workRunnable = new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        busqueda = newText;
+//                        final ProductoControlador productoControlador = new ProductoControlador();
+//                        productoControlador.buscarPorDescripcion(UIProductos.this, listaProductos, newText);
+//                        listaProductos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                            @Override
+//                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                                p = productoControlador.extraerDeLista(position);
+//                                productoControlador.extraerPorId(UIProductos.this, p);// Le paso esta actividad y desde el postExecute lanzo
+//                                // UIProductoSeleccionado
+//                            }
+//                        });
+//                    }
+//                };
+//                handler.postDelayed(workRunnable, DELAY /*delay*/);
                 return true;
             }
         });
@@ -137,14 +153,14 @@ public class UIProductos extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.presupuestos) {
-            ConfigaccControlador configaccControlador = new ConfigaccControlador();
-            configaccControlador.permisosParametros(this);
+            abrirActivity(this, UIPresupuestos.class);
         } else if (id == R.id.clientes) {
             abrirActivity(this, UIClientes.class);
         } else if (id == R.id.productos) {
 
         } else if (id == R.id.parametros) {
-            abrirActivity(this, UIParametros.class);
+            ConfigaccControlador configaccControlador = new ConfigaccControlador();
+            configaccControlador.permisosParametros(this);
         } else if (id == R.id.cerrarSesion) {
 
             Util.createCustomDialog(this,

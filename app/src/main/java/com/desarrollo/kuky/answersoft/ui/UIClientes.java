@@ -83,18 +83,9 @@ public class UIClientes extends AppCompatActivity
         searchView.setQueryHint(getText(R.string.action_search));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                /*Toast.makeText(UIClientes.this, "Submmited", Toast.LENGTH_SHORT).show();
-                //se oculta el EditText
-                searchView.setQuery("", false);
-                searchView.setIconified(true);*/
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
+            public boolean onQueryTextSubmit(final String query) {
                 final ClienteControlador clienteControlador = new ClienteControlador();
-                clienteControlador.buscarPorRazonSocial(UIClientes.this, lvClientes, newText);
+                clienteControlador.buscarPorRazonSocial(UIClientes.this, lvClientes, query);
                 lvClientes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -102,6 +93,29 @@ public class UIClientes extends AppCompatActivity
                         clienteControlador.extraerPorId(UIClientes.this, c);
                     }
                 });
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(final String newText) {
+//                Handler handler = new Handler(Looper.getMainLooper() /*UI thread*/);
+//                Runnable workRunnable = null;
+//                handler.removeCallbacks(workRunnable);
+//                workRunnable = new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        final ClienteControlador clienteControlador = new ClienteControlador();
+//                        clienteControlador.buscarPorRazonSocial(UIClientes.this, lvClientes, newText);
+//                        lvClientes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                            @Override
+//                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                                c = clienteControlador.extraerDeLista(position);
+//                                clienteControlador.extraerPorId(UIClientes.this, c);
+//                            }
+//                        });
+//                    }
+//                };
+//                handler.postDelayed(workRunnable, DELAY /*delay*/);
                 return true;
             }
         });
@@ -117,12 +131,12 @@ public class UIClientes extends AppCompatActivity
 
         if (id == R.id.clientes) {
         } else if (id == R.id.presupuestos) {
-            ConfigaccControlador configaccControlador = new ConfigaccControlador();
-            configaccControlador.permisosParametros(this);
+            abrirActivity(this, UIPresupuestos.class);
         } else if (id == R.id.productos) {
             abrirActivity(this, UIProductos.class);
         } else if (id == R.id.parametros) {
-            abrirActivity(this, UIParametros.class);
+            ConfigaccControlador configaccControlador = new ConfigaccControlador();
+            configaccControlador.permisosParametros(this);
         } else if (id == R.id.cerrarSesion) {
 
             Util.createCustomDialog(this,

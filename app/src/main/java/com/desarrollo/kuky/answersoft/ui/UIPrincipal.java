@@ -68,8 +68,7 @@ public class UIPrincipal extends AppCompatActivity
         bPresupuestos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ConfigaccControlador configaccControlador = new ConfigaccControlador();
-                configaccControlador.permisosParametros(UIPrincipal.this);
+                abrirActivity(UIPrincipal.this, UIPresupuestos.class);
             }
         });
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -118,14 +117,14 @@ public class UIPrincipal extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.presupuestos) {
-            ConfigaccControlador configaccControlador = new ConfigaccControlador();
-            configaccControlador.permisosParametros(this);
+            abrirActivity(UIPrincipal.this, UIPresupuestos.class);
         } else if (id == R.id.clientes) {
             abrirActivity(UIPrincipal.this, UIClientes.class);
         } else if (id == R.id.productos) {
             abrirActivity(UIPrincipal.this, UIProductos.class);
         } else if (id == R.id.parametros) {
-            abrirActivity(this, UIParametros.class);
+            ConfigaccControlador configaccControlador = new ConfigaccControlador();
+            configaccControlador.permisosParametros(this);
         } else if (id == R.id.cerrarSesion) {
             Util.createCustomDialog(this,
                     "¿Esta seguro que desea cerrar sesion?",

@@ -82,18 +82,9 @@ public class UIPresupuestos extends AppCompatActivity
         searchView.setQueryHint(getText(R.string.action_search));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                /*Toast.makeText(UIClientes.this, "Submmited", Toast.LENGTH_SHORT).show();
-                //se oculta el EditText
-                searchView.setQuery("", false);
-                searchView.setIconified(true);*/
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
+            public boolean onQueryTextSubmit(final String query) {
                 final ComprobantePCControlador comprobantePCControlador = new ComprobantePCControlador();
-                comprobantePCControlador.buscarPorCliente(UIPresupuestos.this, lvPresupuestos, newText);
+                comprobantePCControlador.buscarPorCliente(UIPresupuestos.this, lvPresupuestos, query);
                 lvPresupuestos.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
                 lvPresupuestos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -102,6 +93,30 @@ public class UIPresupuestos extends AppCompatActivity
                         comprobantePDControlador.extraerPorNumComp(UIPresupuestos.this, comprobantePCControlador.extraerDeLista(position).getNROCOMP());
                     }
                 });
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(final String newText) {
+//                Handler handler = new Handler(Looper.getMainLooper() /*UI thread*/);
+//                Runnable workRunnable = null;
+//                handler.removeCallbacks(workRunnable);
+//                workRunnable = new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        final ComprobantePCControlador comprobantePCControlador = new ComprobantePCControlador();
+//                        comprobantePCControlador.buscarPorCliente(UIPresupuestos.this, lvPresupuestos, newText);
+//                        lvPresupuestos.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+//                        lvPresupuestos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                            @Override
+//                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                                ComprobantePDControlador comprobantePDControlador = new ComprobantePDControlador();
+//                                comprobantePDControlador.extraerPorNumComp(UIPresupuestos.this, comprobantePCControlador.extraerDeLista(position).getNROCOMP());
+//                            }
+//                        });
+//                    }
+//                };
+//                handler.postDelayed(workRunnable, DELAY /*delay*/);
                 return true;
             }
         });
@@ -123,7 +138,8 @@ public class UIPresupuestos extends AppCompatActivity
             ConfigaccControlador configaccControlador = new ConfigaccControlador();
             configaccControlador.permisosProductos(this);
         } else if (id == R.id.parametros) {
-            abrirActivity(this, UIParametros.class);
+            ConfigaccControlador configaccControlador = new ConfigaccControlador();
+            configaccControlador.permisosParametros(this);
         } else if (id == R.id.cerrarSesion) {
 
             Util.createCustomDialog(this,
