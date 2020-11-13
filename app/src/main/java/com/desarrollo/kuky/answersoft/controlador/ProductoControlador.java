@@ -38,14 +38,6 @@ import static com.desarrollo.kuky.answersoft.util.Util.mostrarMensaje;
  */
 public class ProductoControlador {
     private ProgressDialog pDialog;
-    private ExtraerTodos extraerTodos;
-    private Update update;
-    private BuscarPorDescripcion buscarPorDescripcion;
-    private BuscarPorDescripcionPresupuesto buscarPorDescripcionPresupuesto;
-    private ExtraerPorId extraerPorId;
-    private Extraer extraer;
-    private ExtraerPorCodAltern extraerPorCodAltern;
-    private ExtraerPorCodBarra extraerPorCodBarra;
     private ArrayList<Producto> productos = new ArrayList<>();
 
     private class ExtraerTodos extends AsyncTask<String, Float, String> {
@@ -96,7 +88,11 @@ public class ProductoControlador {
                 ////////////////////////////////////////////////////////////////////////////////////
                 conn = (Connection) Conexion.GetConnection(a);
                 if (conn != null) {
-                    String consultaSql = "select p.IDPRODUCTO, p.DESCRIP, (p.PRECVENTA*m.VALOR), p.CODALTERN FROM producto_0 p, moneda m WHERE p.PRECIOS=m.CODIGO AND p.VER=1 ORDER BY p.DESCRIP LIMIT ?";
+                    String consultaSql = "select p.IDPRODUCTO, p.DESCRIP, (p.PRECVENTA*m.VALOR), p.CODALTERN " +
+                            " FROM producto_0 p, moneda m " +
+                            " WHERE p.PRECIOS=m.CODIGO AND p.VER=1 " +
+                            " ORDER BY p.DESCRIP " +
+                            " LIMIT ?";
                     ps = (PreparedStatement) conn.prepareStatement(consultaSql);
                     ps.setInt(1, limit);
                     ps.executeQuery();
@@ -151,7 +147,7 @@ public class ProductoControlador {
     }
 
     public void extraerTodos(Activity a, ListView l) {
-        extraerTodos = new ExtraerTodos(a, l);
+        ExtraerTodos extraerTodos = new ExtraerTodos(a, l);
         extraerTodos.execute();
     }
 
@@ -182,7 +178,9 @@ public class ProductoControlador {
             try {
                 conn = (Connection) Conexion.GetConnection(a);
                 if (conn != null) {
-                    String consultaSql = "SELECT STOCK FROM producto_0 WHERE IDPRODUCTO=?";
+                    String consultaSql = "SELECT STOCK " +
+                            " FROM producto_0 " +
+                            " WHERE IDPRODUCTO=?";
                     ps = (PreparedStatement) conn.prepareStatement(consultaSql);
                     ps.setInt(1, p.getIdProducto());
                     ps.executeQuery();
@@ -214,7 +212,7 @@ public class ProductoControlador {
     }
 
     public void extraerPorId(Activity a, Producto p) {
-        extraerPorId = new ExtraerPorId(a, p);
+        ExtraerPorId extraerPorId = new ExtraerPorId(a, p);
         extraerPorId.execute();
     }
 
@@ -240,7 +238,10 @@ public class ProductoControlador {
                 conn = (Connection) Conexion.GetConnection(a);
                 if (conn != null) {
                     if (codLista.equals("0000")) {
-                        String consultaSql = "SELECT STOCK,DESCRIP,PRECVENTA,CODALTERN FROM producto_0 WHERE IDPRODUCTO=?";
+                        String consultaSql = "SELECT p.STOCK,p.DESCRIP,(p.precventa * m.valor) AS PRECIO,p.CODALTERN " +
+                                " FROM producto_0 p, moneda m " +
+                                " WHERE p.IDPRODUCTO=?" +
+                                " AND p.PRECIOS = m.CODIGO";
                         ps = (PreparedStatement) conn.prepareStatement(consultaSql);
                         ps.setInt(1, producto.getIdProducto());
                         ps.executeQuery();
@@ -252,8 +253,11 @@ public class ProductoControlador {
                             producto.setCodAlternativo(rs.getString(4));
                         }
                     } else {
-                        String listaCodigo = "LIST_" + codLista;
-                        String consultaSql = "SELECT STOCK,DESCRIP," + listaCodigo + ",CODALTERN FROM producto_0 WHERE IDPRODUCTO=?";
+                        String listaCodigo = "p.LIST_" + codLista;
+                        String consultaSql = "SELECT p.STOCK,p.DESCRIP,(" + listaCodigo + "* m.valor) AS PRECIO,p.CODALTERN " +
+                                " FROM producto_0 p, moneda m " +
+                                " WHERE p.IDPRODUCTO=?" +
+                                " AND p.PRECIOS = m.CODIGO";
                         ps = (PreparedStatement) conn.prepareStatement(consultaSql);
                         ps.setInt(1, producto.getIdProducto());
                         ps.executeQuery();
@@ -288,7 +292,7 @@ public class ProductoControlador {
     }
 
     public void extraer(Activity a, Producto p, String codLista) {
-        extraer = new Extraer(a, p, codLista);
+        Extraer extraer = new Extraer(a, p, codLista);
         extraer.execute();
     }
 
@@ -321,7 +325,9 @@ public class ProductoControlador {
             try {
                 conn = (Connection) Conexion.GetConnection(a);
                 if (conn != null) {
-                    String consultaSql = "select IDPRODUCTO from producto_0 where CODALTERN like ?";
+                    String consultaSql = "select IDPRODUCTO " +
+                            " from producto_0 " +
+                            " where CODALTERN like ?";
                     ps = (PreparedStatement) conn.prepareStatement(consultaSql);
                     ps.setString(1, codAltern);
                     ps.executeQuery();
@@ -353,7 +359,7 @@ public class ProductoControlador {
     }
 
     public void extraerPorCodAltern(Activity a, String codAltern) {
-        extraerPorCodAltern = new ExtraerPorCodAltern(a, codAltern);
+        ExtraerPorCodAltern extraerPorCodAltern = new ExtraerPorCodAltern(a, codAltern);
         extraerPorCodAltern.execute();
     }
 
@@ -387,7 +393,10 @@ public class ProductoControlador {
             try {
                 conn = (Connection) Conexion.GetConnection(a);
                 if (conn != null) {
-                    String consultaSql = "SELECT p.IDPRODUCTO, p.DESCRIP, (p.PRECVENTA*m.VALOR), p.STOCK FROM producto_0 p, moneda m WHERE p.PRECIOS=m.CODIGO AND CODALTERN like ? ";
+                    String consultaSql = "SELECT p.IDPRODUCTO, p.DESCRIP, (p.PRECVENTA*m.VALOR), p.STOCK " +
+                            " FROM producto_0 p, moneda m " +
+                            " WHERE p.PRECIOS=m.CODIGO " +
+                            " AND CODALTERN like ? ";
                     ps = (PreparedStatement) conn.prepareStatement(consultaSql);
                     ps.setString(1, "%" + codBarra + "%");
                     ps.executeQuery();
@@ -430,7 +439,7 @@ public class ProductoControlador {
     }
 
     public void extraerPorCodBarra(Activity a, Producto p, String codBarra) {
-        extraerPorCodBarra = new ExtraerPorCodBarra(a, p, codBarra);
+        ExtraerPorCodBarra extraerPorCodBarra = new ExtraerPorCodBarra(a, p, codBarra);
         extraerPorCodBarra.execute();
     }
 
@@ -467,9 +476,9 @@ public class ProductoControlador {
                 if (conn != null) {
                     Log.d("Conectado", "se conecto con exito");
                     String consultaSql = "UPDATE producto_0 p " +
-                            "LEFT JOIN moneda m ON p.PRECIOS = m.CODIGO " +
-                            "SET p.STOCK=?, p.CODALTERN=?,p.PRECVENTA = FORMAT(? / m.VALOR ,4) " +
-                            "WHERE IDPRODUCTO=?";
+                            " LEFT JOIN moneda m ON p.PRECIOS = m.CODIGO " +
+                            " SET p.STOCK=?, p.CODALTERN=?,p.PRECVENTA = FORMAT(? / m.VALOR ,4) " +
+                            " WHERE IDPRODUCTO=?";
                     ps = (PreparedStatement) conn.prepareStatement(consultaSql);
                     ps.setFloat(1, p.getStock());
                     ps.setString(2, p.getCodAlternativo());
@@ -498,7 +507,7 @@ public class ProductoControlador {
     }
 
     public void update(Activity a, Producto p, Button b) {
-        update = new Update(a, p, b);
+        Update update = new Update(a, p, b);
         update.execute();
     }
 
@@ -543,7 +552,11 @@ public class ProductoControlador {
                 try {
                     conn = (Connection) Conexion.GetConnection(a);
                     if (conn != null) {
-                        String consultaSql = "select p.IDPRODUCTO, p.DESCRIP, (p.PRECVENTA*m.VALOR), p.CODALTERN FROM producto_0 p, moneda m WHERE p.PRECIOS=m.CODIGO AND p.VER=1 ORDER BY p.DESCRIP LIMIT ?";
+                        String consultaSql = "select p.IDPRODUCTO, p.DESCRIP, (p.PRECVENTA*m.VALOR), p.CODALTERN " +
+                                " FROM producto_0 p, moneda m " +
+                                " WHERE p.PRECIOS=m.CODIGO AND p.VER=1 " +
+                                " ORDER BY p.DESCRIP " +
+                                " LIMIT ?";
                         ps = (PreparedStatement) conn.prepareStatement(consultaSql);
                         ps.setInt(1, limit);
                         ps.executeQuery();
@@ -571,7 +584,11 @@ public class ProductoControlador {
                 try {
                     conn = (Connection) Conexion.GetConnection(a);
                     if (conn != null) {
-                        String consultaSql = "select p.IDPRODUCTO, p.DESCRIP, (p.PRECVENTA*m.VALOR), p.CODALTERN FROM producto_0 p, moneda m WHERE p.PRECIOS=m.CODIGO AND p.VER=1 AND p.DESCRIP like ? ORDER BY p.DESCRIP LIMIT ?";
+                        String consultaSql = "select p.IDPRODUCTO, p.DESCRIP, (p.PRECVENTA*m.VALOR), p.CODALTERN " +
+                                " FROM producto_0 p, moneda m " +
+                                " WHERE p.PRECIOS=m.CODIGO AND p.VER=1 AND p.DESCRIP like ? " +
+                                " ORDER BY p.DESCRIP " +
+                                " LIMIT ?";
                         ps = (PreparedStatement) conn.prepareStatement(consultaSql);
                         ps.setString(1, "%" + descripcion + "%");
                         ps.setInt(2, limit);
@@ -612,7 +629,7 @@ public class ProductoControlador {
     }
 
     public void buscarPorDescripcion(Activity a, ListView l, String descripcion) {
-        buscarPorDescripcion = new BuscarPorDescripcion(a, l, descripcion);
+        BuscarPorDescripcion buscarPorDescripcion = new BuscarPorDescripcion(a, l, descripcion);
         buscarPorDescripcion.execute();
     }
 
@@ -658,7 +675,11 @@ public class ProductoControlador {
                 try {
                     conn = (Connection) Conexion.GetConnection(a);
                     if (conn != null) {
-                        String consultaSql = "select p.IDPRODUCTO, p.DESCRIP, (p.PRECVENTA*m.VALOR), p.CODALTERN, p.STOCK FROM producto_0 p, moneda m WHERE p.PRECIOS=m.CODIGO AND p.VER=1 ORDER BY p.DESCRIP LIMIT ?";
+                        String consultaSql = "SELECT p.IDPRODUCTO, p.DESCRIP, (p.PRECVENTA*m.VALOR), p.CODALTERN, p.STOCK " +
+                                " FROM producto_0 p, moneda m " +
+                                " WHERE p.PRECIOS=m.CODIGO AND p.VER=1 " +
+                                " ORDER BY p.DESCRIP " +
+                                " LIMIT ?";
                         ps = (PreparedStatement) conn.prepareStatement(consultaSql);
                         ps.setInt(1, limit);
                         ps.executeQuery();
@@ -733,7 +754,7 @@ public class ProductoControlador {
     }
 
     public void buscarPorDescripcionPresupuesto(Activity a, ListView l, String descripcion) {
-        buscarPorDescripcionPresupuesto = new BuscarPorDescripcionPresupuesto(a, l, descripcion);
+        BuscarPorDescripcionPresupuesto buscarPorDescripcionPresupuesto = new BuscarPorDescripcionPresupuesto(a, l, descripcion);
         buscarPorDescripcionPresupuesto.execute();
     }
 
