@@ -16,11 +16,13 @@ import com.desarrollo.kuky.answersoft.util.Util;
 
 import static com.desarrollo.kuky.answersoft.util.Util.RedondearFloat;
 import static com.desarrollo.kuky.answersoft.util.Util.abrirActivity;
+import static com.desarrollo.kuky.answersoft.util.Util.disableInput;
 
 public class UIProductoSeleccionado extends AppCompatActivity {
     TextView tvTitulo;
     EditText etStock, etPrecioVenta, etCodigoBarra;
     Button bGuardar, bEtiqueta;
+    public static int permisoStock = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,13 +53,8 @@ public class UIProductoSeleccionado extends AppCompatActivity {
         etPrecioVenta.setText(String.valueOf(RedondearFloat(UIProductos.p.getPrecioVenta(), 2)));
         etPrecioVenta.setSelectAllOnFocus(true);
         etCodigoBarra.setText(UIProductos.p.getCodAlternativo());
-        for (int i = 0; i < UIProductos.configaccs.size(); i++) {
-            if (UIProductos.configaccs.get(i).getItemidh().equals(Util.NO_MODIFICA_PRECIO)) {
-                etPrecioVenta.setEnabled(false);
-            }
-            if (UIProductos.configaccs.get(i).getItemidh().equals(Util.NO_MODIFICA_STOCK)) {
-                etStock.setEnabled(false);
-            }
+        if (permisoStock == 0) {
+            disableInput(this, etStock);
         }
     }
 

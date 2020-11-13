@@ -8,7 +8,9 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -188,5 +190,18 @@ public class Util {
             }
         }
         return EXITOSO;
+    }
+
+    public static void disableInput(Activity a, EditText editText) {
+        editText.setBackgroundColor(Color.TRANSPARENT);
+        editText.setTextIsSelectable(true);
+        editText.setInputType(InputType.TYPE_NULL);
+        editText.setTextIsSelectable(false);
+        editText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                return true;  // Blocks input from hardware keyboards.
+            }
+        });
     }
 }

@@ -117,10 +117,10 @@ public class UIClientes extends AppCompatActivity
 
         if (id == R.id.clientes) {
         } else if (id == R.id.presupuestos) {
-            abrirActivity(this, UIPresupuestos.class);
-        } else if (id == R.id.productos) {
             ConfigaccControlador configaccControlador = new ConfigaccControlador();
-            configaccControlador.permisosProductos(this);
+            configaccControlador.permisosParametros(this);
+        } else if (id == R.id.productos) {
+            abrirActivity(this, UIProductos.class);
         } else if (id == R.id.parametros) {
             abrirActivity(this, UIParametros.class);
         } else if (id == R.id.cerrarSesion) {

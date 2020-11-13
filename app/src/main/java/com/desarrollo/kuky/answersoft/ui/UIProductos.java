@@ -23,14 +23,12 @@ import com.desarrollo.kuky.answersoft.R;
 import com.desarrollo.kuky.answersoft.controlador.BaseHelper;
 import com.desarrollo.kuky.answersoft.controlador.ConfigaccControlador;
 import com.desarrollo.kuky.answersoft.controlador.ProductoControlador;
-import com.desarrollo.kuky.answersoft.objetos.Configacc;
 import com.desarrollo.kuky.answersoft.objetos.Moneda;
 import com.desarrollo.kuky.answersoft.objetos.Producto;
 import com.desarrollo.kuky.answersoft.util.Util;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
 import static com.desarrollo.kuky.answersoft.util.Util.abrirActivity;
@@ -39,7 +37,6 @@ public class UIProductos extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private ListView listaProductos;
     public static Producto p;
-    public static ArrayList<Configacc> configaccs = new ArrayList<>();
     public static Moneda moneda;
     public String busqueda = "";
 
@@ -70,7 +67,7 @@ public class UIProductos extends AppCompatActivity
         // CAPTURAMOS LOS ELEMENTOS
         listaProductos = (ListView) findViewById(R.id.lvProductos);
         ConfigaccControlador configaccControlador = new ConfigaccControlador();
-        configaccControlador.editarProductos(this);
+        configaccControlador.permisosProductos(this);
         // CARGAMOS LOS CAMPOS
         final ProductoControlador productoControlador = new ProductoControlador();
         productoControlador.buscarPorDescripcion(UIProductos.this, listaProductos, busqueda);
@@ -140,10 +137,10 @@ public class UIProductos extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.presupuestos) {
-            abrirActivity(this, UIPresupuestos.class);
-        } else if (id == R.id.clientes) {
             ConfigaccControlador configaccControlador = new ConfigaccControlador();
-            configaccControlador.permisosClientes(this);
+            configaccControlador.permisosParametros(this);
+        } else if (id == R.id.clientes) {
+            abrirActivity(this, UIClientes.class);
         } else if (id == R.id.productos) {
 
         } else if (id == R.id.parametros) {

@@ -118,8 +118,7 @@ public class UIPresupuestos extends AppCompatActivity
         if (id == R.id.presupuestos) {
 
         } else if (id == R.id.clientes) {
-            ConfigaccControlador configaccControlador = new ConfigaccControlador();
-            configaccControlador.permisosClientes(this);
+            abrirActivity(this, UIClientes.class);
         } else if (id == R.id.productos) {
             ConfigaccControlador configaccControlador = new ConfigaccControlador();
             configaccControlador.permisosProductos(this);

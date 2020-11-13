@@ -6,15 +6,17 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 
-import com.desarrollo.kuky.answersoft.objetos.Configacc;
-import com.desarrollo.kuky.answersoft.ui.UIClientes;
-import com.desarrollo.kuky.answersoft.ui.UIProductos;
+import com.desarrollo.kuky.answersoft.ui.UILogin;
+import com.desarrollo.kuky.answersoft.ui.UIParametros;
+import com.desarrollo.kuky.answersoft.ui.UIPrincipal;
+import com.desarrollo.kuky.answersoft.ui.UIProductoSeleccionado;
+import com.desarrollo.kuky.answersoft.util.Util;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
 import static com.desarrollo.kuky.answersoft.util.Util.abrirActivity;
 import static com.desarrollo.kuky.answersoft.util.Util.mostrarMensaje;
@@ -25,109 +27,11 @@ import static com.desarrollo.kuky.answersoft.util.Util.mostrarMensaje;
 
 public class ConfigaccControlador {
     private ProgressDialog pDialog;
-    public PermisosClientes permisosClientes;
-    public PermisosProductos permisosProductos;
-    public EditarProductos editarProductos;
-    Configacc configacc;
-
-    private class PermisosClientes extends AsyncTask<String, Float, String> {
-        Activity a;
-        String user;
-        ArrayList<Configacc> configaccs;
-
-        public PermisosClientes(Activity a) {
-            this.a = a;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            pDialog = new ProgressDialog(a);
-            pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            pDialog.setMessage("Estableciendo conexion...");
-            pDialog.setCancelable(false);
-            pDialog.show();
-            SQLiteDatabase db = BaseHelper.getInstance(a).getReadableDatabase();
-            try {
-                Cursor c = db.rawQuery("SELECT IDUSUARIO FROM usuarios", null);
-                if (c.moveToNext()) {
-                    user = "USR_" + c.getString(0);
-                }
-            } catch (Exception e) {
-            }
-        }
-
-        @Override
-        protected String doInBackground(String... strings) {
-            configaccs = new ArrayList<>();
-            Connection conn;
-            PreparedStatement ps;
-            ResultSet rs;
-            String retorno = "No se pudo conectar a la dase de datos";
-            try {
-                conn = (Connection) Conexion.GetConnection(a);
-                if (conn != null) {
-
-                    String consultaSql = "Select MENU,INDICE,ITEM, OPCIONES, ITEMID, HIJO \n" +
-                            "    From CONFIGACC " +
-                            "    WHERE TIPO = 'M' " +
-                            "    and menu='mnmantenimiento' " +
-                            "    and indice=8 " +
-                            "    and " + user + " ='S'" +
-                            "    Order by orden";
-                    ps = (PreparedStatement) conn.prepareStatement(consultaSql);
-                    ps.execute();
-                    rs = ps.getResultSet();
-                    if (rs.next()) {
-                        configacc = new Configacc();
-                        configacc.setMenu(rs.getString(1));
-                        configacc.setIndice(rs.getFloat(2));
-                        configacc.setItem(rs.getString(3));
-                        configacc.setOpciones(rs.getString(4));
-                        configacc.setItemid(rs.getString(5));
-                        configacc.setHijo(rs.getFloat(6));
-                        configaccs.add(configacc);
-                    }
-                    rs.close();
-                    ps.close();
-                    conn.close();
-                    retorno = "";
-                }
-                return retorno;
-            } catch (SQLException e) {
-                e.printStackTrace();
-                return e.toString();
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            pDialog.dismiss();
-            if (s.equals("")) {
-                int bandera = 0;
-                for (int i = 0; i < configaccs.size(); i++) {
-                    if (configaccs.get(i).getIndice() == 8) {
-                        bandera = 1;
-                        abrirActivity(a, UIClientes.class);
-                    }
-                }
-                if (bandera == 0) {
-                    mostrarMensaje(a, "Ud no tiene permisos para acceder a esta seccion.");
-                }
-            } else {
-                mostrarMensaje(a, s);
-            }
-        }
-    }
-
-    public void permisosClientes(Activity a) {
-        permisosClientes = new PermisosClientes(a);
-        permisosClientes.execute();
-    }
 
     private class PermisosProductos extends AsyncTask<String, Float, String> {
         Activity a;
         String user;
-        ArrayList<Configacc> configaccs;
+        String permiso;
 
         public PermisosProductos(Activity a) {
             this.a = a;
@@ -152,7 +56,7 @@ public class ConfigaccControlador {
 
         @Override
         protected String doInBackground(String... strings) {
-            configaccs = new ArrayList<>();
+            permiso = "N"; //inicializamos con el permiso negado
             Connection conn;
             PreparedStatement ps;
             ResultSet rs;
@@ -160,25 +64,14 @@ public class ConfigaccControlador {
             try {
                 conn = (Connection) Conexion.GetConnection(a);
                 if (conn != null) {
-                    String consultaSql = "Select MENU,INDICE,ITEM, OPCIONES, ITEMID, HIJO \n" +
-                            "    From CONFIGACC " +
-                            "    WHERE TIPO = 'M' " +
-                            "    and menu='mnmantenimiento' " +
-                            "    and indice = 0 " +
-                            "    and " + user + " ='S'" +
-                            "    Order by orden";
+                    String consultaSql = "SELECT " + user +
+                            " FROM `configacc`" +
+                            " WHERE `HIJO` = 203.0000";
                     ps = (PreparedStatement) conn.prepareStatement(consultaSql);
                     ps.execute();
                     rs = ps.getResultSet();
                     if (rs.next()) {
-                        configacc = new Configacc();
-                        configacc.setMenu(rs.getString(1));
-                        configacc.setIndice(rs.getFloat(2));
-                        configacc.setItem(rs.getString(3));
-                        configacc.setOpciones(rs.getString(4));
-                        configacc.setItemid(rs.getString(5));
-                        configacc.setHijo(rs.getFloat(6));
-                        configaccs.add(configacc);
+                        permiso = rs.getString(1);
                     }
                     rs.close();
                     ps.close();
@@ -196,15 +89,8 @@ public class ConfigaccControlador {
         protected void onPostExecute(String s) {
             pDialog.dismiss();
             if (s.equals("")) {
-                int bandera = 0;
-                for (int i = 0; i < configaccs.size(); i++) {
-                    if (configaccs.get(i).getIndice() == 0) {
-                        bandera = 1;
-                        abrirActivity(a, UIProductos.class);
-                    }
-                }
-                if (bandera == 0) {
-                    mostrarMensaje(a, "Ud no tiene permisos para acceder a esta seccion.");
+                if (permiso.equals("S")) {
+                    UIProductoSeleccionado.permisoStock = 1;
                 }
             } else {
                 mostrarMensaje(a, s);
@@ -213,15 +99,16 @@ public class ConfigaccControlador {
     }
 
     public void permisosProductos(Activity a) {
-        permisosProductos = new PermisosProductos(a);
+        PermisosProductos permisosProductos = new PermisosProductos(a);
         permisosProductos.execute();
     }
 
-    private class EditarProductos extends AsyncTask<String, Float, String> {
+    private class PermisosParametros extends AsyncTask<String, Float, String> {
         Activity a;
         String user;
+        String permiso;
 
-        public EditarProductos(Activity a) {
+        public PermisosParametros(Activity a) {
             this.a = a;
         }
 
@@ -244,10 +131,7 @@ public class ConfigaccControlador {
 
         @Override
         protected String doInBackground(String... strings) {
-            if (android.os.Debug.isDebuggerConnected())
-                android.os.Debug.waitForDebugger();
-
-            UIProductos.configaccs = new ArrayList<>();
+            permiso = "N"; //inicializamos con el permiso negado
             Connection conn;
             PreparedStatement ps;
             ResultSet rs;
@@ -255,20 +139,14 @@ public class ConfigaccControlador {
             try {
                 conn = (Connection) Conexion.GetConnection(a);
                 if (conn != null) {
-                    String consultaSql = "Select ITEM, OPCIONES, ITEMID, ITEMIDH From configacc" +
-                            "    WHERE TIPO = 'F'" +
-                            "    and ITEMID = 'FrmABMProductos'" +
-                            "    and " + user + " ='N'";
+                    String consultaSql = "SELECT " + user +
+                            " FROM `configacc`" +
+                            " WHERE `HIJO` = 144.0000";
                     ps = (PreparedStatement) conn.prepareStatement(consultaSql);
                     ps.execute();
                     rs = ps.getResultSet();
-                    while (rs.next()) {//SIEMPRE ES WHILE CUANDO SE ESPERA 2 O MAS REGISTROS (Y METERLOS EN UN ARRAYLIST)
-                        configacc = new Configacc();
-                        configacc.setItem(rs.getString(1));
-                        configacc.setOpciones(rs.getString(2));
-                        configacc.setItemid(rs.getString(3));
-                        configacc.setItemidh(rs.getString(4));
-                        UIProductos.configaccs.add(configacc);
+                    if (rs.next()) {
+                        permiso = rs.getString(1);
                     }
                     rs.close();
                     ps.close();
@@ -286,16 +164,41 @@ public class ConfigaccControlador {
         protected void onPostExecute(String s) {
             pDialog.dismiss();
             if (s.equals("")) {
-                //Toast.makeText(a, "Pasa por aca", Toast.LENGTH_SHORT).show();
+                if (permiso.equals("S")) {
+                    abrirActivity(a, UIParametros.class);
+                } else {
+                    Util.createCustomDialog(a,
+                            "NO TIENE PERMISOS",
+                            "¿Que desea hacer?",
+                            "CERRAR SESION",
+                            "VOLVER AL INICIO",
+                            new Callable<Void>() {
+                                @Override
+                                public Void call() throws Exception {
+                                    ///////////////////////////////////////////////////////////////////////////////////////
+                                    SQLiteDatabase db = BaseHelper.getInstance(a).getWritableDatabase();
+                                    db.execSQL("DELETE FROM usuarios");
+                                    abrirActivity(a, UILogin.class);
+                                    return null;
+                                }
+                            },
+                            new Callable<Void>() {
+                                @Override
+                                public Void call() throws Exception {
+                                    abrirActivity(a, UIPrincipal.class);
+                                    return null;
+                                }
+                            }).show();
+                }
             } else {
                 mostrarMensaje(a, s);
             }
         }
     }
 
-    public void editarProductos(Activity a) {
-        editarProductos = new EditarProductos(a);
-        editarProductos.execute();
+    public void permisosParametros(Activity a) {
+        PermisosParametros permisosParametros = new PermisosParametros(a);
+        permisosParametros.execute();
     }
 
 }

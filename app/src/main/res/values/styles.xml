@@ -77,6 +77,10 @@
         <item name="android:textColor">@color/colorPrimaryDark</item>
     </style>
 
+    <style name="et_primary_disabled" parent="et_primary">
+        <item name="background">@drawable/boton_redondo_deshabilitado</item>
+    </style>
+
     <style name="b_primary">
         <item name="android:padding">5dp</item>
         <item name="android:layout_width">wrap_content</item>

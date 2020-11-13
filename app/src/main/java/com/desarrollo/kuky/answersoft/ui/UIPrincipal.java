@@ -56,21 +56,20 @@ public class UIPrincipal extends AppCompatActivity
         bClientes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ConfigaccControlador configaccControlador = new ConfigaccControlador();
-                configaccControlador.permisosClientes(UIPrincipal.this);
+                abrirActivity(UIPrincipal.this, UIClientes.class);
             }
         });
         bProductos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ConfigaccControlador configaccControlador = new ConfigaccControlador();
-                configaccControlador.permisosProductos(UIPrincipal.this);
+                abrirActivity(UIPrincipal.this, UIProductos.class);
             }
         });
         bPresupuestos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                abrirActivity(UIPrincipal.this, UIPresupuestos.class);
+                ConfigaccControlador configaccControlador = new ConfigaccControlador();
+                configaccControlador.permisosParametros(UIPrincipal.this);
             }
         });
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -80,8 +79,9 @@ public class UIPrincipal extends AppCompatActivity
             Cursor c2 = db.rawQuery("SELECT * FROM parametros", null);
             if (c2.moveToFirst()) {
             } else {
-                abrirActivity(this, UIParametros.class);
-                mostrarMensaje(this, "Es necesario configurar estos parametros");
+                ConfigaccControlador configaccControlador = new ConfigaccControlador();
+                configaccControlador.permisosParametros(UIPrincipal.this);
+                mostrarMensaje(this, "Es necesario configurar los parametros");
             }
             c2.close();
         } catch (Exception e) {
@@ -118,13 +118,12 @@ public class UIPrincipal extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.presupuestos) {
-            abrirActivity(this, UIPresupuestos.class);
+            ConfigaccControlador configaccControlador = new ConfigaccControlador();
+            configaccControlador.permisosParametros(this);
         } else if (id == R.id.clientes) {
-            ConfigaccControlador configaccControlador = new ConfigaccControlador();
-            configaccControlador.permisosClientes(this);
+            abrirActivity(UIPrincipal.this, UIClientes.class);
         } else if (id == R.id.productos) {
-            ConfigaccControlador configaccControlador = new ConfigaccControlador();
-            configaccControlador.permisosProductos(this);
+            abrirActivity(UIPrincipal.this, UIProductos.class);
         } else if (id == R.id.parametros) {
             abrirActivity(this, UIParametros.class);
         } else if (id == R.id.cerrarSesion) {
