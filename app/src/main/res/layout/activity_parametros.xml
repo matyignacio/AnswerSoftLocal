@@ -68,10 +68,23 @@
             android:layout_centerHorizontal="true"
             android:inputType="number" />
 
+        <TextView
+            android:id="@+id/tvLimitePresupuestos"
+            style="@style/tv_primary_mini"
+            android:layout_below="@+id/etLimiteProductos"
+            android:text="Límite presupuestos" />
+
+        <EditText
+            android:id="@+id/etLimitePresupuestos"
+            style="@style/et_primary"
+            android:layout_below="@+id/tvLimitePresupuestos"
+            android:layout_centerHorizontal="true"
+            android:inputType="number" />
+
         <Button
             android:id="@+id/bAceptar"
             style="@style/b_primary"
-            android:layout_below="@+id/etLimiteProductos"
+            android:layout_below="@+id/etLimitePresupuestos"
             android:layout_centerHorizontal="true"
             android:onClick="guardarParametros"
             android:text="Aceptar" />

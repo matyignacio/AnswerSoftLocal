@@ -68,7 +68,8 @@ public class BaseHelper extends SQLiteOpenHelper {
             "`IDVENDEDOR` varchar(6) default NULL," +
             "`NROPTOVTA` decimal(10,4) default NULL," +
             "limite_clientes int(11) default NULL, " +
-            "limite_productos int(11) default NULL" +
+            "limite_productos int(11) default NULL," +
+            "limite_presupuestos int(11) default NULL" +
             ")";
     String sqlTablaConfiguracion = "CREATE TABLE IF NOT EXISTS configuracion (" +
             "direcionip varchar(30) default NULL," +

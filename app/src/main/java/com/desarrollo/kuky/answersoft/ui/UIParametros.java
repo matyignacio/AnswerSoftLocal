@@ -22,7 +22,7 @@ import static com.desarrollo.kuky.answersoft.util.Util.validarCampos;
 
 public class UIParametros extends AppCompatActivity {
     TextView tvTitulo;
-    EditText etVendedor, etPuntoVenta, etLimiteClientes, etLimiteProductos;
+    EditText etVendedor, etPuntoVenta, etLimiteClientes, etLimiteProductos, etLimitePresupuestos;
     Button bAceptar;
 
     @Override
@@ -34,6 +34,7 @@ public class UIParametros extends AppCompatActivity {
         etVendedor = (EditText) findViewById(R.id.etVendedor);
         etPuntoVenta = (EditText) findViewById(R.id.etPuntoVenta);
         etLimiteProductos = (EditText) findViewById(R.id.etLimiteProductos);
+        etLimitePresupuestos = (EditText) findViewById(R.id.etLimitePresupuestos);
         etLimiteClientes = (EditText) findViewById(R.id.etLimiteClientes);
         bAceptar = (Button) findViewById(R.id.bAceptar);
         // SETEAMOS TYPEFACE
@@ -42,6 +43,7 @@ public class UIParametros extends AppCompatActivity {
         etVendedor.setTypeface(util.getTypeface());
         etPuntoVenta.setTypeface(util.getTypeface());
         etLimiteProductos.setTypeface(util.getTypeface());
+        etLimitePresupuestos.setTypeface(util.getTypeface());
         etLimiteClientes.setTypeface(util.getTypeface());
         bAceptar.setTypeface(util.getTypeface());
         // CARGAMOS LOS CAMPOS
@@ -54,6 +56,7 @@ public class UIParametros extends AppCompatActivity {
                     etPuntoVenta.setText(c.getString(1));
                     etLimiteClientes.setText(c.getString(2));
                     etLimiteProductos.setText(c.getString(3));
+                    etLimitePresupuestos.setText(c.getString(4));
                 }
             }
             c.close();
@@ -74,6 +77,7 @@ public class UIParametros extends AppCompatActivity {
         inputs.add(etPuntoVenta);
         inputs.add(etLimiteClientes);
         inputs.add(etLimiteProductos);
+        inputs.add(etLimitePresupuestos);
         if (validarCampos(this, inputs) == EXITOSO) {
             SQLiteDatabase db = BaseHelper.getInstance(this).getWritableDatabase();
             db.execSQL("DROP TABLE parametros");
@@ -83,6 +87,7 @@ public class UIParametros extends AppCompatActivity {
                     "','" + etPuntoVenta.getText() +
                     "'," + etLimiteClientes.getText() +
                     "," + etLimiteProductos.getText() +
+                    "," + etLimitePresupuestos.getText() +
                     ")";
             db.execSQL(sql);
             db.close();

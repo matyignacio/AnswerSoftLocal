@@ -2,6 +2,8 @@ package com.desarrollo.kuky.answersoft.controlador;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -14,6 +16,8 @@ import com.mysql.jdbc.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import static com.desarrollo.kuky.answersoft.util.Util.RellenarConCeros;
 
 public class ComprobantePCControlador {
     ProgressDialog pDialog;
@@ -46,16 +50,32 @@ public class ComprobantePCControlador {
             PreparedStatement ps;
             ResultSet rs;
             String retorno = "No se pudo conectar a la dase de datos";
+            int limit = 10000, NROPTOVTA = 0;
+            String comprobante = "";
             comprobantesXC = new ArrayList<>();
+            ////////////////////////////////////////////////////////////////////////////////////
+            SQLiteDatabase db = BaseHelper.getInstance(a).getReadableDatabase();
+            Cursor c = db.rawQuery("SELECT NROPTOVTA,limite_presupuestos FROM parametros", null);
+            if (c.moveToFirst()) {
+                NROPTOVTA = (int) c.getFloat(0);
+                limit = c.getInt(1);
+            }
+            comprobante = RellenarConCeros(4, String.valueOf(NROPTOVTA)) + "%";
+            c.close();
+            db.close();
+            ////////////////////////////////////////////////////////////////////////////////////
             conn = (Connection) Conexion.GetConnection(a);
             if (conn != null) {
                 if (razonSocial.equals("")) {
                     try {
                         String consultaSql = "SELECT NROCOMP, CLIENTE, FECHA, TOTAL, VENDEDOR, idt" +
                                 " FROM comprobantes_p_c" +
+                                " WHERE NROCOMP like ?" +
                                 " ORDER BY idt DESC" +
-                                " LIMIT 10";
+                                " LIMIT ?";
                         ps = (PreparedStatement) conn.prepareStatement(consultaSql);
+                        ps.setString(1, comprobante);
+                        ps.setInt(2, limit);
                         ps.executeQuery();
                         rs = ps.getResultSet();
                         while (rs.next()) {
