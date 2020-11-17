@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AnswerSoft_-_Administracion_local.iml" filepath="$PROJECT_DIR$/.idea/modules/AnswerSoft_-_Administracion_local.iml" group="AnswerSoft_-_Administracion_local" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="AnswerSoft - Administracion local/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AnswerSoft_-_Administracion_local.iml" filepath="$PROJECT_DIR$/.idea/modules/AnswerSoft_-_Administracion_local.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/AnswerSoft_-_Administracion_local.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/AnswerSoft_-_Administracion_local.app.iml" />
     </modules>
   </component>
 </project>

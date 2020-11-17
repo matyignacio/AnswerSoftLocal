@@ -16,7 +16,6 @@ import com.desarrollo.kuky.answersoft.util.Util;
 
 import static com.desarrollo.kuky.answersoft.util.Util.RedondearFloat;
 import static com.desarrollo.kuky.answersoft.util.Util.abrirActivity;
-import static com.desarrollo.kuky.answersoft.util.Util.disableInput;
 
 public class UIProductoSeleccionado extends AppCompatActivity {
     TextView tvTitulo;
@@ -54,7 +53,7 @@ public class UIProductoSeleccionado extends AppCompatActivity {
         etPrecioVenta.setSelectAllOnFocus(true);
         etCodigoBarra.setText(UIProductos.p.getCodAlternativo());
         if (permisoStock == 0) {
-            disableInput(this, etStock);
+            etStock.setVisibility(View.INVISIBLE);
         }
     }
 
