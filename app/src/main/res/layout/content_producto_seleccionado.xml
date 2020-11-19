@@ -17,14 +17,6 @@
             style="@style/tv_primary_mini"
             android:text="Stock:" />
 
-        <TextView
-            android:id="@+id/etStockDisabled"
-            style="@style/et_primary"
-            android:layout_below="@+id/tvStock"
-            android:gravity="end"
-            android:text="Stock del "
-            android:textAlignment="textEnd" />
-
         <EditText
             android:id="@+id/etStock"
             style="@style/et_primary"

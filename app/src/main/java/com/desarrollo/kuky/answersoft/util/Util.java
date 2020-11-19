@@ -193,8 +193,7 @@ public class Util {
         return EXITOSO;
     }
 
-    public static void disableInput(Activity a, EditText editText) {
-        editText.setBackgroundColor(Color.TRANSPARENT);
+    public static void disableInput(EditText editText) {
         editText.setTextIsSelectable(true);
         editText.setInputType(InputType.TYPE_NULL);
         editText.setTextIsSelectable(false);

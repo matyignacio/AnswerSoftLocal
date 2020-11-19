@@ -91,6 +91,8 @@ public class ConfigaccControlador {
             if (s.equals("")) {
                 if (permiso.equals("S")) {
                     UIProductoSeleccionado.permisoStock = 1;
+                } else {
+                    UIProductoSeleccionado.permisoStock = 0;
                 }
             } else {
                 mostrarMensaje(a, s);
