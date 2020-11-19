@@ -74,7 +74,7 @@ public class UIProductoSeleccionado extends AppCompatActivity {
             } else {
                 UIProductos.p.setPrecioVenta(Float.parseFloat(etPrecioVenta.getText().toString()));
                 UIProductos.p.setStock(Float.parseFloat(etStock.getText().toString()));
-                if (!etCodigoBarra.getText().equals("")) {
+                if (!etCodigoBarra.getText().toString().equals("")) {
                     UIProductos.p.setCodAlternativo(etCodigoBarra.getText().toString());
                 }
                 try {
