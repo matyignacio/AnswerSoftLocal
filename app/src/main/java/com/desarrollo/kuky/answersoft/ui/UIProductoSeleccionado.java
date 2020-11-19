@@ -16,9 +16,10 @@ import com.desarrollo.kuky.answersoft.util.Util;
 
 import static com.desarrollo.kuky.answersoft.util.Util.RedondearFloat;
 import static com.desarrollo.kuky.answersoft.util.Util.abrirActivity;
+import static com.desarrollo.kuky.answersoft.util.Util.mostrarMensaje;
 
 public class UIProductoSeleccionado extends AppCompatActivity {
-    TextView tvTitulo;
+    TextView etStockDisabled, tvTitulo;
     EditText etStock, etPrecioVenta, etCodigoBarra;
     Button bGuardar, bEtiqueta;
     public static int permisoStock = 0;
@@ -35,12 +36,14 @@ public class UIProductoSeleccionado extends AppCompatActivity {
         // CAPTURAMOS LOS ELEMENTOS
         tvTitulo = (TextView) findViewById(R.id.tbProductoSeleccionado);
         etStock = (EditText) findViewById(R.id.etStock);
+        etStockDisabled = (TextView) findViewById(R.id.etStockDisabled);
         etPrecioVenta = (EditText) findViewById(R.id.etPrecioVenta);
         etCodigoBarra = (EditText) findViewById(R.id.etCodigoBarra);
         bGuardar = (Button) findViewById(R.id.bGuardar);
         bEtiqueta = (Button) findViewById(R.id.bEtiqueta);
         // SETEAMOS TYPEFACE
         etStock.setTypeface(util.getTypeface());
+        etStockDisabled.setTypeface(util.getTypeface());
         etCodigoBarra.setTypeface(util.getTypeface());
         etPrecioVenta.setTypeface(util.getTypeface());
         bGuardar.setTypeface(util.getTypeface());
@@ -48,6 +51,7 @@ public class UIProductoSeleccionado extends AppCompatActivity {
         // CARGAMOS LOS CAMPOS
         tvTitulo.setText(UIProductos.p.getDescripcion());
         etStock.setText(String.valueOf(RedondearFloat(UIProductos.p.getStock(), 2)));
+        etStockDisabled.setText(String.valueOf(RedondearFloat(UIProductos.p.getStock(), 2)));
         etStock.setSelectAllOnFocus(true);
         etPrecioVenta.setText(String.valueOf(RedondearFloat(UIProductos.p.getPrecioVenta(), 2)));
         etPrecioVenta.setSelectAllOnFocus(true);
@@ -87,12 +91,12 @@ public class UIProductoSeleccionado extends AppCompatActivity {
     public void InsertarEtiqueta(View view) {
         OfertasControlador oControlador = new OfertasControlador();
         if (etStock.getText().toString().equals("")) {
-            Toast.makeText(this, "Debe llenar el campo Stock", Toast.LENGTH_SHORT).show();
+            mostrarMensaje(this, "Debe llenar el campo Stock");
         } else {
             try {
                 oControlador.insertar(this, UIProductos.p, bEtiqueta);
             } catch (Exception e) {
-                Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+                mostrarMensaje(this, e.toString());
             }
         }
     }
